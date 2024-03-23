@@ -18,6 +18,6 @@ public class Item implements Serializable {
     private String id;
     private String name;
     private String descr;
-    private String ownerId;
+    private String userId;
 
 }

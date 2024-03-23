@@ -36,4 +36,9 @@ public class ItemService {
         }
         return student;
     }
+
+    public List<Item> getUserItem(String userId) {
+        List<Item> items = jdbi.onDemand(ItemDAO.class).findAllByUserId(userId);
+        return items;
+    }
 }

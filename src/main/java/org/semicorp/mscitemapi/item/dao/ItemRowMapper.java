@@ -15,7 +15,7 @@ public class ItemRowMapper implements RowMapper<Item> {
                 rs.getString("id"),
                 rs.getString("name"),
                 rs.getString("descr"),
-                rs.getString("ownerId")
+                rs.getString("userId")
         );
     }
 }

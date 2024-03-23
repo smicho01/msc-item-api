@@ -7,7 +7,7 @@ public class ItemRow implements DomainType<Item>, Comparable<Item> {
     private String id;
     private String name;
     private String descr;
-    private String ownerId;
+    private String userId;
 
 
     @Override

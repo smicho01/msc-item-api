@@ -3,10 +3,7 @@ package org.semicorp.mscitemapi.item;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,14 +20,24 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems() {
+        log.info("Get all items");
         List<Item> items = studentService.getAllItems();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getItem(@PathVariable(value="id") String id) {
+    public ResponseEntity<Item> getItem(@PathVariable(value="id") String id)  {
+        log.info(String.format("Get item by id: %s", id));
         Item item = studentService.getStudent(id);
         return new ResponseEntity<>(item, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Item>> getUserItems(@PathVariable(value="userId") String userId)  {
+        log.info(String.format("Get items for user %s", userId));
+        List<Item> items = studentService.getUserItem(userId);
+        return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
 }

@@ -10,10 +10,14 @@ import java.util.List;
 public interface ItemDAO {
 
     @RegisterRowMapper(ItemRowMapper.class)
+    @SqlQuery(QueryItem.QUERY_FIND_ALL)
+    List<Item> findAll();
+
+    @RegisterRowMapper(ItemRowMapper.class)
     @SqlQuery(QueryItem.QUERY_FIND_BY_ID)
     Item findById(@Bind("id") String id);
 
     @RegisterRowMapper(ItemRowMapper.class)
-    @SqlQuery(QueryItem.QUERY_FIND_ALL)
-    List<Item> findAll();
+    @SqlQuery(QueryItem.QUERY_FIND_BY_USER_ID)
+    List<Item> findAllByUserId(@Bind("id") String userId);
 }
