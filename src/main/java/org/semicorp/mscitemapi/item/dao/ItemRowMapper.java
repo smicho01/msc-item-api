@@ -13,7 +13,9 @@ public class ItemRowMapper implements RowMapper<Item> {
     public Item map(ResultSet rs, StatementContext ctx) throws SQLException {
         return new Item(
                 rs.getString("id"),
-                rs.getString("name")
+                rs.getString("name"),
+                rs.getString("descr"),
+                rs.getString("ownerId")
         );
     }
 }
