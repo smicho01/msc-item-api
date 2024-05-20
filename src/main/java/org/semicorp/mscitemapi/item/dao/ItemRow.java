@@ -2,7 +2,7 @@ package org.semicorp.mscitemapi.item.dao;
 
 import org.semicorp.mscitemapi.item.Item;
 
-public class ItemRow implements DomainType<Item>, Comparable<Item> {
+public class ItemRow implements  Comparable<Item> {
 
     private String id;
     private String name;
@@ -15,8 +15,4 @@ public class ItemRow implements DomainType<Item>, Comparable<Item> {
         return 0;
     }
 
-    @Override
-    public Item asModel() {
-        return null;
-    }
 }
