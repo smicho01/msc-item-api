@@ -23,7 +23,7 @@ public class QuestionController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Question>> getUserQuestions(@PathVariable(value="userId") String userId)  {
-        log.info(String.format("Get items for user %s", userId));
+        //log.info("Get questions for user  id: {}", userId);
         List<Question> userQuestions = questionService.getUserQuestions(userId);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
