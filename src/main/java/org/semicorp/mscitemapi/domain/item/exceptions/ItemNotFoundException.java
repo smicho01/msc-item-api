@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.item.exceptions;
+package org.semicorp.mscitemapi.domain.item.exceptions;
 
 public class ItemNotFoundException extends RuntimeException {
     public ItemNotFoundException() {}

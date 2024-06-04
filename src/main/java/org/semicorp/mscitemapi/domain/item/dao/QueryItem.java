@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.item.dao;
+package org.semicorp.mscitemapi.domain.item.dao;
 
 public class QueryItem {
 

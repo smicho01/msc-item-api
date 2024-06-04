@@ -1,9 +1,9 @@
-package org.semicorp.mscitemapi.item.dao;
+package org.semicorp.mscitemapi.domain.item.dao;
 
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
-import org.semicorp.mscitemapi.item.Item;
+import org.semicorp.mscitemapi.domain.item.Item;
 
 import java.util.List;
 

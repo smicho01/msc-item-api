@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.question;
+package org.semicorp.mscitemapi.domain.question;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

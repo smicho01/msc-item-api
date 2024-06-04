@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.item;
+package org.semicorp.mscitemapi.domain.item;
 
 
 import lombok.*;

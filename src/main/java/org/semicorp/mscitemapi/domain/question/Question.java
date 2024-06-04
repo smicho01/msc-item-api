@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.answer;
+package org.semicorp.mscitemapi.domain.question;
 
 import lombok.*;
 
@@ -8,10 +8,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Answer {
+public class Question {
 
     private String id;
-    private String questionId;
-    private String userId;
+    private String title;
     private String content;
 }

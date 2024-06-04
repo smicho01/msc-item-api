@@ -1,6 +1,6 @@
-package org.semicorp.mscitemapi.item.dao;
+package org.semicorp.mscitemapi.domain.item.dao;
 
-import org.semicorp.mscitemapi.item.Item;
+import org.semicorp.mscitemapi.domain.item.Item;
 
 public class ItemRow implements  Comparable<Item> {
 

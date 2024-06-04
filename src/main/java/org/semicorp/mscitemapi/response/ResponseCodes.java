@@ -1,5 +1,8 @@
 package org.semicorp.mscitemapi.response;
 
+import lombok.Getter;
+
+@Getter
 public class ResponseCodes {
     public static final int SUCCESS = 200;
     public static final int FAIL = 300;
