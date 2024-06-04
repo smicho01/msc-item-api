@@ -2,6 +2,8 @@ package org.semicorp.mscitemapi.domain.college;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
+import org.semicorp.mscitemapi.response.BasicResponse;
+import org.semicorp.mscitemapi.response.CollegeResponse;
 import org.semicorp.mscitemapi.response.ResponseCodes;
 import org.semicorp.mscitemapi.response.TextResponse;
 import org.springframework.http.HttpHeaders;
@@ -23,11 +25,12 @@ public class CollegeController {
 
     @PostMapping
     public ResponseEntity addCollege(
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-            @RequestBody College college){
-            log.info("Adding new college: " + college.getName());
+                            @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                            @RequestBody College college){
 
-        TextResponse insertResponse = collegeService.insert(college);
+        log.info("Adding new college: " + college.getName());
+
+        CollegeResponse insertResponse = collegeService.insert(college);
         switch (insertResponse.getCode()) {
             case (ResponseCodes.SUCCESS) :
                 log.info("Added new college: " + college.getName());
@@ -38,6 +41,5 @@ public class CollegeController {
             default:
                 return new ResponseEntity(insertResponse.getResponse(), HttpStatus.BAD_REQUEST);
         }
-
     }
 }
