@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.domain.college;
+package org.semicorp.mscitemapi.domain.modules;
 
 
 import lombok.*;
@@ -11,7 +11,9 @@ import lombok.*;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class College {
+public class Module {
+
     private String id;
     private String name;
+    private String collegeId;
 }
