@@ -3,3 +3,9 @@ databaseChangeLog:
       file: changelog/001-create-item-table.json
   - include:
       file: changelog/002-create-college-table.json
+  - include:
+      file: changelog/003-create-module-table.json
+  - include:
+      file: changelog/199-insert-dummy-data.json
+
+

@@ -40,23 +40,4 @@ public class CollegeService {
         }
         return new CollegeResponse(newCollege, ResponseCodes.SUCCESS);
     }
-
-
-    /* Used to extract duplicated college id and name */
-    public String getValuesFromErrorMessage(String message, String value){
-        Pattern pattern = Pattern.compile("CollegeRow\\(id=(.*?), name=(.*?)\\)");
-        Matcher matcher = pattern.matcher(message);
-        String id = "";
-        String name = "";
-        if (matcher.find()) {
-            id = matcher.group(1);
-            name = matcher.group(2);
-        }
-
-        return switch (value) {
-            case "id" -> id;
-            case "name" -> name;
-            default -> "";
-        };
-    }
 }

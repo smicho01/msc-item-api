@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/module")
@@ -19,4 +22,25 @@ public class ModuleController {
         this.moduleService = collegeService;
     }
 
+
+
+    @GetMapping
+    public ResponseEntity<List<Module>> getAllModules(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        List<Module> allModules = moduleService.getAllModules();
+        return new ResponseEntity<>(allModules, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Module>> getModuleWithNameLike(
+                            @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                            @PathVariable(value = "id") String id
+    ) {
+        List<Module> allModules = moduleService.findById(id);
+        return new ResponseEntity<>(allModules, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public void addModule() {
+
+    }
 }

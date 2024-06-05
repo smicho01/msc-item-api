@@ -1,15 +1,12 @@
 package org.semicorp.mscitemapi.domain.modules;
 
 import org.jdbi.v3.core.Jdbi;
-import org.semicorp.mscitemapi.domain.modules.dao.CollegeDao;
-import org.semicorp.mscitemapi.domain.modules.dao.CollegeRow;
+import org.semicorp.mscitemapi.domain.college.dao.CollegeDao;
+import org.semicorp.mscitemapi.domain.modules.dao.ModuleDao;
 import org.semicorp.mscitemapi.response.CollegeResponse;
-import org.semicorp.mscitemapi.response.ResponseCodes;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 @Service
 public class ModuleService {
@@ -21,7 +18,17 @@ public class ModuleService {
     }
 
     public CollegeResponse insert(Module newCollege) {
+        // TODO
        return  null;
     }
 
+    public List<Module> getAllModules() {
+        List<Module> allModules = jdbi.onDemand(ModuleDao.class).findAll();
+        return allModules;
+    }
+
+    public List<Module> findById(String id) {
+        List<Module> allModules = jdbi.onDemand(ModuleDao.class).findById(id);
+        return allModules;
+    }
 }

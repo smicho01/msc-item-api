@@ -1,0 +1,23 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "003-create-module-table",
+        "author": "S Michota",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "path": "sql/199-insert-dummy-data.sql"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+

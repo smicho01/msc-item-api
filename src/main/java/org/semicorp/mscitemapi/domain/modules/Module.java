@@ -16,4 +16,5 @@ public class Module {
     private String id;
     private String name;
     private String collegeId;
+    private String collegeName;
 }
