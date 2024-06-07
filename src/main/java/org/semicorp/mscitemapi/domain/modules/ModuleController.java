@@ -26,6 +26,7 @@ public class ModuleController {
 
     @GetMapping
     public ResponseEntity<List<Module>> getAllModules(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        log.info("Get all modules");
         List<Module> allModules = moduleService.getAllModules();
         return new ResponseEntity<>(allModules, HttpStatus.OK);
     }
@@ -33,14 +34,20 @@ public class ModuleController {
     @GetMapping("/{id}")
     public ResponseEntity<List<Module>> getModuleWithNameLike(
                             @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                            @PathVariable(value = "id") String id
-    ) {
+                            @PathVariable(value = "id") String id) {
+        log.info("Get module by id {}", id);
         List<Module> allModules = moduleService.findById(id);
         return new ResponseEntity<>(allModules, HttpStatus.OK);
     }
 
-    @PostMapping
-    public void addModule() {
-
+    @GetMapping("/college/{id}")
+    public ResponseEntity<List<Module>> getModulesByCollege(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @PathVariable(value = "id") String collegeId) {
+        log.info("Get modules by college id {}", collegeId);
+        List<Module> allModules = moduleService.findModulesByCollege(collegeId);
+        return new ResponseEntity<>(allModules, HttpStatus.OK);
     }
+
+
 }

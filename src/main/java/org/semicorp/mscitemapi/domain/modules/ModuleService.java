@@ -23,12 +23,14 @@ public class ModuleService {
     }
 
     public List<Module> getAllModules() {
-        List<Module> allModules = jdbi.onDemand(ModuleDao.class).findAll();
-        return allModules;
+        return jdbi.onDemand(ModuleDao.class).findAll();
     }
 
     public List<Module> findById(String id) {
-        List<Module> allModules = jdbi.onDemand(ModuleDao.class).findById(id);
-        return allModules;
+        return jdbi.onDemand(ModuleDao.class).findById(id);
+    }
+
+    public List<Module> findModulesByCollege(String collegeId) {
+        return jdbi.onDemand(ModuleDao.class).findModulesByCollegeId(collegeId);
     }
 }

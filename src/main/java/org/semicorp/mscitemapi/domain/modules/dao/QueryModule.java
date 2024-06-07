@@ -10,7 +10,10 @@ public class QueryModule {
     public static final String QUERY_FIND_MODULE_BY_ID = "SELECT m.id, m.name, m.collegeId, c.name as college_name\n" +
             "FROM items.module as m, items.college as c\n" +
             "WHERE m.collegeId = c.id AND m.id = :id;";
-
+    public static final String QUERY_FIND_MODULES_BY_COLLEGE_ID = "SELECT m.id, m.name, m.collegeId, c.name as college_name \n" +
+            "FROM items.module as m, items.college as c\n" +
+            "WHERE m.collegeid = c.id AND m.collegeid = :collegeId\n" +
+            "ORDER BY m.name, c.name;";
 
 
     static final String QUERY_INSERT_MODULE = "INSERT INTO items.module (id, name, collegeId) VALUES(:id, :name, :collegeId);";

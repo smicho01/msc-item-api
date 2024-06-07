@@ -21,4 +21,8 @@ public interface ModuleDao {
     @RegisterRowMapper(ModuleRowMapper.class)
     @SqlQuery(QueryModule.QUERY_FIND_MODULE_BY_ID)
     List<Module> findById(@Bind("id") String id);
+
+    @RegisterRowMapper(ModuleRowMapper.class)
+    @SqlQuery(QueryModule.QUERY_FIND_MODULES_BY_COLLEGE_ID)
+    List<Module> findModulesByCollegeId(@Bind("collegeId")String collegeId);
 }
