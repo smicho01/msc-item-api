@@ -1,9 +1,0 @@
-
-CREATE SCHEMA IF NOT EXISTS items;
-
-CREATE TABLE IF NOT EXISTS items.item (
-    id VARCHAR(36)  PRIMARY KEY,
-    name VARCHAR(120) NOT NULL,
-    descr TEXT NOT NULL,
-    userId VARCHAR(36) NOT NULL
-    );

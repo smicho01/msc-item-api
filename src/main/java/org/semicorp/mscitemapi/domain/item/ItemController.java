@@ -40,4 +40,9 @@ public class ItemController {
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
+    @PostMapping
+    public void addItem() {
+        log.info("Adding item");
+    }
+
 }

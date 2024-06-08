@@ -1,9 +1,8 @@
 
--- dummy ITEMS data
-INSERT INTO items.item(id, name, descr, userId) VALUES
-('2cef2a1b-5ef9-4fc6-88fe-b2572f19ba1a', 'Item 01', 'descr tem01', '7cef2a1b-5ef9-4fc6-88fe-b2572f19bf65'),
-('3d9d8092-b95d-4106-866f-96ef24902a2b', 'Item 02', 'descr item02', '4d9d8092-b95d-4106-866f-96ef2490252b'),
-('a2e43664-2adf-4abd-97ee-3782e98c3a3b', 'Item 03', 'descr item03', 'f2e43664-2adf-4abd-97ee-3782e98c39e4');
+-- dummy Question data
+INSERT INTO items.question (id, title, content, userId, userName, collegeId, moduleId) VALUES
+('9a7138dd-871e-476a-b610-2bcac68a6a82', 'How to create LSTM', 'Content of how to create LSTM ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c'),
+('9a7138dd-871e-476a-b610-2bcac68a6a55', 'How to create B+Tree', 'Content of how to create B+Tree ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c');
 
 
 -- dummy COLLEGE data

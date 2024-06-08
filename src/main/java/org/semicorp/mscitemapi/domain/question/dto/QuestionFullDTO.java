@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.domain.question;
+package org.semicorp.mscitemapi.domain.question.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Question {
+public class QuestionFullDTO {
 
     private String id;
     private String title;
@@ -17,5 +17,7 @@ public class Question {
     private String userId;
     private String userName;
     private String collegeId;
+    private String collegeName;
     private String moduleId;
+    private String moduleName;
 }

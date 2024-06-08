@@ -1,6 +1,6 @@
 databaseChangeLog:
   - include:
-      file: changelog/001-create-item-table.json
+      file: changelog/001-create-question-table.json
   - include:
       file: changelog/002-create-college-table.json
   - include:

@@ -1,0 +1,12 @@
+
+CREATE SCHEMA IF NOT EXISTS items;
+
+CREATE TABLE IF NOT EXISTS items.question (
+    id VARCHAR(36)  PRIMARY KEY,
+    title VARCHAR(250) NOT NULL,
+    content TEXT NOT NULL,
+    userId VARCHAR(36) NOT NULL,
+    userName VARCHAR(150) NOT NULL,
+    collegeId VARCHAR(36) NOT NULL,
+    moduleId VARCHAR(36) NOT NULL
+    );

@@ -2,13 +2,13 @@
   "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "001-create-item-table",
+        "id": "001-create-question-table",
         "author": "S Michota",
         "changes": [
           {
             "sqlFile": {
               "dbms": "postgresql",
-              "path": "sql/001-create-item-table.sql"
+              "path": "sql/001-create-question-table.sql"
             }
           }
         ]
