@@ -6,6 +6,7 @@ databaseChangeLog:
   - include:
       file: changelog/003-create-module-table.json
   - include:
+      file: changelog/004-create-table-tags.json
+  - include:
       file: changelog/199-insert-dummy-data.json
-
 

@@ -25,3 +25,14 @@ INSERT INTO items.module (id, name, collegeId) VALUES
 ('f5fc12b0-7007-450f-b2e3-c9f05674b829', 'Algorithms', '12c23765-7f23-441a-b729-706629c7ab80'),
 ('ad607a8b-9d00-4565-95b4-5ccffe4900fe', 'Discrete Mathematics for Computer Scientists', '12c23765-7f23-441a-b729-706629c7ab80'),
 ('1ca9a9a0-624c-401b-973c-abd0dcd1ff9e', 'Engineering Challenges', '12c23765-7f23-441a-b729-706629c7ab80');
+
+
+-- dummy tags
+INSERT INTO items.tag (id, name) VALUES
+('82ceabc2-b69e-43df-9a3b-ded9a9dc7741', 'php'),
+('f5fc12b1-5007-450f-b2e3-c9f05674b822', 'machine learning');
+
+-- dummy tag_question
+INSERT INTO items.tag_question (tag_id, question_id) VALUES
+('82ceabc2-b69e-43df-9a3b-ded9a9dc7741', '9a7138dd-871e-476a-b610-2bcac68a6a82'),
+('f5fc12b1-5007-450f-b2e3-c9f05674b822', '9a7138dd-871e-476a-b610-2bcac68a6a82');

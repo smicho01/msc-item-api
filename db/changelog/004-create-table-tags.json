@@ -1,0 +1,23 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "004-create-table-tags",
+        "author": "S Michota",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "path": "sql/004-create-table-tags.sql"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
