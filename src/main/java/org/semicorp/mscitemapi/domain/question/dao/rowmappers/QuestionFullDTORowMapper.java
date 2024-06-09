@@ -2,6 +2,7 @@ package org.semicorp.mscitemapi.domain.question.dao.rowmappers;
 
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
+import org.semicorp.mscitemapi.domain.question.QuestionStatus;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 
 import java.sql.ResultSet;
@@ -19,7 +20,8 @@ public class QuestionFullDTORowMapper implements RowMapper<QuestionFullDTO> {
                 rs.getString("collegeId"),
                 rs.getString("collegeName"),
                 rs.getString("moduleId"),
-                rs.getString("moduleName")
+                rs.getString("moduleName"),
+                QuestionStatus.valueOf(rs.getString("status"))
         );
     }
 

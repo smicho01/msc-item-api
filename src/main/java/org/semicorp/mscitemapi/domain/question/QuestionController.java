@@ -22,25 +22,29 @@ public class QuestionController {
 
 
     @GetMapping
-    public ResponseEntity<List<QuestionFullDTO>> getAllQuestions(@RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
+    public ResponseEntity<List<QuestionFullDTO>> getAllQuestions(
+                            @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
         log.info("Get all questions");
         List<QuestionFullDTO> userQuestions = questionService.findAll();
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Question>> getUserQuestions(@PathVariable(value="userId") String userId)  {
+    public ResponseEntity<List<QuestionFullDTO>> getUserQuestions(
+                            @PathVariable(value="userId") String userId)  {
         //log.info("Get questions for user  id: {}", userId);
-        List<Question> userQuestions = questionService.getUserQuestions(userId);
+        List<QuestionFullDTO> userQuestions = questionService.getUserQuestions(userId);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
     @PostMapping
-    public String addQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                              @RequestBody Question question) {
-        System.out.println(question);
-        log.info("Add question");
-        return "All good";
+    public ResponseEntity<Question> addQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+                                      @RequestBody Question question) {
+        Question result = questionService.insert(question);
+        if (result == null) {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
 }

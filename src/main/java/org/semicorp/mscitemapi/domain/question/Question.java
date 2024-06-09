@@ -18,4 +18,5 @@ public class Question {
     private String userName;
     private String collegeId;
     private String moduleId;
+    private QuestionStatus status = QuestionStatus.PENDING;
 }

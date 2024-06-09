@@ -1,10 +1,9 @@
 package org.semicorp.mscitemapi.domain.question.dao;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.semicorp.mscitemapi.domain.question.Question;
+import org.semicorp.mscitemapi.domain.question.QuestionStatus;
 
 @Getter
 @Setter
@@ -18,8 +17,18 @@ public class QuestionRow {
     private String userId;
     private String userName;
     private String collegeId;
-    private String collegeName;
     private String moduleId;
-    private String moduleName;
+    private QuestionStatus status;
+
+    public QuestionRow(@NonNull final Question question) {
+        this.id = question.getId();
+        this.title = question.getTitle();
+        this.content = question.getContent();
+        this.userId = question.getUserId();
+        this.userName = question.getUserName();
+        this.collegeId = question.getCollegeId();
+        this.moduleId = question.getModuleId();
+        this.status = question.getStatus();
+    }
 
 }

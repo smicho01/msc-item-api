@@ -17,7 +17,7 @@ public class ModuleService {
         this.jdbi = jdbi;
     }
 
-    public CollegeResponse insert(Module newCollege) {
+    public CollegeResponse insert(Module newModule) {
         // TODO
        return  null;
     }

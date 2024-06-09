@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS items.question (
     userId VARCHAR(36) NOT NULL,
     userName VARCHAR(150) NOT NULL,
     collegeId VARCHAR(36) NOT NULL,
-    moduleId VARCHAR(36) NOT NULL
+    moduleId VARCHAR(36) NOT NULL,
+    status VARCHAR(40) NOT NULL
     );

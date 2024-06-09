@@ -1,8 +1,8 @@
 
 -- dummy Question data
-INSERT INTO items.question (id, title, content, userId, userName, collegeId, moduleId) VALUES
-('9a7138dd-871e-476a-b610-2bcac68a6a82', 'How to create LSTM', 'Content of how to create LSTM ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c'),
-('9a7138dd-871e-476a-b610-2bcac68a6a55', 'How to create B+Tree', 'Content of how to create B+Tree ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c');
+INSERT INTO items.question (id, title, content, userId, userName, collegeId, moduleId, status) VALUES
+('9a7138dd-871e-476a-b610-2bcac68a6a82', 'How to create LSTM', 'Content of how to create LSTM ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c', 'PENDING'),
+('9a7138dd-871e-476a-b610-2bcac68a6a55', 'How to create B+Tree', 'Content of how to create B+Tree ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c', 'REJECTED');
 
 
 -- dummy COLLEGE data
