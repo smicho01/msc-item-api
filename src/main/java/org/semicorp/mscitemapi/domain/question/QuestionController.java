@@ -29,11 +29,28 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
+    @GetMapping("/short")
+    public ResponseEntity<List<QuestionFullDTO>> getAllQuestionsShort(
+            @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
+        log.info("Get all questions");
+        List<QuestionFullDTO> userQuestions = questionService.findAllShort();
+        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+    }
+
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<QuestionFullDTO>> getUserQuestions(
                             @PathVariable(value="userId") String userId)  {
         //log.info("Get questions for user  id: {}", userId);
-        List<QuestionFullDTO> userQuestions = questionService.getUserQuestions(userId);
+        List<QuestionFullDTO> userQuestions = questionService.findByUserId(userId);
+        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/short")
+    public ResponseEntity<List<QuestionFullDTO>> getUserQuestionsShort(
+            @PathVariable(value="userId") String userId)  {
+        //log.info("Get questions for user  id: {}", userId);
+        List<QuestionFullDTO> userQuestions = questionService.findByUserIdShort(userId);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 

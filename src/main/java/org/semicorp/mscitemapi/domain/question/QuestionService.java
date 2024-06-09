@@ -6,13 +6,8 @@ import org.jdbi.v3.core.Jdbi;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionDAO;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionRow;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
-import org.semicorp.mscitemapi.response.CollegeResponse;
-import org.semicorp.mscitemapi.response.QuestionResponse;
-import org.semicorp.mscitemapi.response.ResponseCodes;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,12 +18,22 @@ public class QuestionService {
 
     private final Jdbi jdbi;
 
-    public List<QuestionFullDTO> getUserQuestions(String userId) {
-        return jdbi.onDemand(QuestionDAO.class).findAll();
-    }
 
     public List<QuestionFullDTO> findAll() {
         return jdbi.onDemand(QuestionDAO.class).findAll();
+    }
+
+    /* SQL query truncate field `content` to specified length [100] characters */
+    public List<QuestionFullDTO> findAllShort() {
+        return jdbi.onDemand(QuestionDAO.class).findAllShort();
+    }
+
+    public List<QuestionFullDTO> findByUserId(String userId) {
+        return jdbi.onDemand(QuestionDAO.class).findAllByUserId(userId);
+    }
+
+    public List<QuestionFullDTO> findByUserIdShort(String userId) {
+        return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
     }
 
     public Question insert(Question question) {
@@ -48,5 +53,9 @@ public class QuestionService {
         }
         log.info("Question added. Id: {}", question.getId());
         return question;
+    }
+
+    public List<QuestionFullDTO> getUserQuestionsShort(String userId) {
+        return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
 }
