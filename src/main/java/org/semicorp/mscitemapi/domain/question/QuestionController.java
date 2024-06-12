@@ -1,7 +1,9 @@
 package org.semicorp.mscitemapi.domain.question;
 
 import lombok.extern.slf4j.Slf4j;
+import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
+import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,8 +58,12 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<Question> addQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                                      @RequestBody Question question) {
-        Question result = questionService.insert(question);
+                                      @RequestBody AddQuestionDTO addQuestionDTO) {
+
+        Question result = questionService.insert(QuestionMapper.addQuestionDtoToQuestion(addQuestionDTO));
+
+        // TODO: insert tags
+
         if (result == null) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }

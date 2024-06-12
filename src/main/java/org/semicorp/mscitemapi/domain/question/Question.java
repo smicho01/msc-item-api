@@ -2,7 +2,6 @@ package org.semicorp.mscitemapi.domain.question;
 
 import lombok.*;
 
-@Data
 @Builder
 @Getter
 @Setter
