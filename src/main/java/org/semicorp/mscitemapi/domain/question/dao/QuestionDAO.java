@@ -19,6 +19,10 @@ public interface QuestionDAO {
     List<QuestionFullDTO> findAll();
 
     @RegisterRowMapper(QuestionFullDTORowMapper.class)
+    @SqlQuery(QueryQuestion.QUERY_FIND_ONE)
+    QuestionFullDTO findById(@Bind("questionId") String questionId);
+
+    @RegisterRowMapper(QuestionFullDTORowMapper.class)
     @SqlQuery(QueryQuestion.QUERY_FIND_ALL_SHORT)
     List<QuestionFullDTO> findAllShort();
 

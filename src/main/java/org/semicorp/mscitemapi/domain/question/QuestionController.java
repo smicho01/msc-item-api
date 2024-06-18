@@ -3,6 +3,7 @@ package org.semicorp.mscitemapi.domain.question;
 import lombok.extern.slf4j.Slf4j;
 import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
 import org.semicorp.mscitemapi.kafka.tag.KafkaTagProducerService;
 import org.semicorp.mscitemapi.kafka.tag.entity.QuestionTagsList;
@@ -34,6 +35,21 @@ public class QuestionController {
         List<QuestionFullDTO> userQuestions = questionService.findAll();
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
+
+//    @GetMapping("{questionId}")
+//    public ResponseEntity<QuestionFullDTO> getQuestionById(
+//            @PathVariable(value="questionId") String questionId)  {
+//        QuestionFullDTO userQuestions = questionService.findById(questionId);
+//        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+//    }
+
+    @GetMapping("{questionId}")
+    public ResponseEntity<QuestionFullWithTagsDTO> getQuestionById(
+            @PathVariable(value="questionId") String questionId)  {
+        QuestionFullWithTagsDTO userQuestions = questionService.findQuestionWithTags(questionId);
+        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+    }
+
 
     @GetMapping("/short")
     public ResponseEntity<List<QuestionFullDTO>> getAllQuestionsShort(
