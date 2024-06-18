@@ -25,7 +25,7 @@ public class QuestionController {
 
     @GetMapping
     public ResponseEntity<List<QuestionFullDTO>> getAllQuestions(
-                            @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
+                        @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
         log.info("Get all questions");
         List<QuestionFullDTO> userQuestions = questionService.findAll();
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
@@ -33,7 +33,7 @@ public class QuestionController {
 
     @GetMapping("/short")
     public ResponseEntity<List<QuestionFullDTO>> getAllQuestionsShort(
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
+                        @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
         log.info("Get all questions");
         List<QuestionFullDTO> userQuestions = questionService.findAllShort();
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
@@ -42,7 +42,7 @@ public class QuestionController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<QuestionFullDTO>> getUserQuestions(
-                            @PathVariable(value="userId") String userId)  {
+                        @PathVariable(value="userId") String userId)  {
         //log.info("Get questions for user  id: {}", userId);
         List<QuestionFullDTO> userQuestions = questionService.findByUserId(userId);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
@@ -50,7 +50,7 @@ public class QuestionController {
 
     @GetMapping("/user/{userId}/short")
     public ResponseEntity<List<QuestionFullDTO>> getUserQuestionsShort(
-            @PathVariable(value="userId") String userId)  {
+                        @PathVariable(value="userId") String userId)  {
         //log.info("Get questions for user  id: {}", userId);
         List<QuestionFullDTO> userQuestions = questionService.findByUserIdShort(userId);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
@@ -58,15 +58,16 @@ public class QuestionController {
 
     @PostMapping
     public ResponseEntity<Question> addQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-                                      @RequestBody AddQuestionDTO addQuestionDTO) {
-
+                        @RequestBody AddQuestionDTO addQuestionDTO) {
         Question result = questionService.insert(QuestionMapper.addQuestionDtoToQuestion(addQuestionDTO));
-
-        // TODO: insert tags
 
         if (result == null) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
+
+        // TODO: insert tags
+        System.out.println(addQuestionDTO.getTags());
+
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
