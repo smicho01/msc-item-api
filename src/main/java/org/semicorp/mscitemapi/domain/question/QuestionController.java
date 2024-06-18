@@ -70,6 +70,7 @@ public class QuestionController {
         }
 
         // Send tags list to Kafka to insert/assign them async.
+        // Check KafkaTagConsumerService.consumeTagsList() method for insert logic
         if(!addQuestionDTO.getTags().isEmpty()) {
             QuestionTagsList questionTagsList = new QuestionTagsList(result.getId(), addQuestionDTO.getTags());
             kafkaTagProducerService.sendMessage(questionTagsList);

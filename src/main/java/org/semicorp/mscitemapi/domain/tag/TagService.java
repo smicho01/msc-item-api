@@ -1,16 +1,14 @@
 package org.semicorp.mscitemapi.domain.tag;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
-import org.semicorp.mscitemapi.domain.question.dao.QuestionDAO;
-import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
-import org.semicorp.mscitemapi.domain.tag.dao.TagDAO;
-import org.semicorp.mscitemapi.domain.tag.dao.TagRow;
+import org.semicorp.mscitemapi.domain.tag.dao.tag.TagDAO;
+import org.semicorp.mscitemapi.domain.tag.dao.tag.TagRow;
 import org.semicorp.mscitemapi.domain.tag.response.TagResponse;
 import org.semicorp.mscitemapi.kafka.tag.entity.QuestionTagsList;
 import org.semicorp.mscitemapi.utils.StringUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,14 +16,11 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TagService {
 
-
     private final Jdbi jdbi;
-
-    public TagService(Jdbi jdbi) {
-        this.jdbi = jdbi;
-    }
+    private final TagQuestionService tagQuestionService;
 
     public List<Tag> findAll() {
         return jdbi.onDemand(TagDAO.class).findAll();
@@ -40,7 +35,21 @@ public class TagService {
     }
 
     public void assignTagsToQuestion(QuestionTagsList questionTagsList) {
-        log.info("Assigning tags list to question id: {}", questionTagsList.getQuestionId());
+        String questionId = questionTagsList.getQuestionId();
+        List<String> tagStrings = questionTagsList.getTags();
+        if(tagStrings.isEmpty()) {
+            return;
+        }
+        log.info("Assigning {} tags to question id: {}", tagStrings.size(), questionId);
+
+        for(String tagString: tagStrings) {
+            // Insert tag if not exists or return existing tag
+            TagResponse insertResponse = insert(new Tag(null, tagString));
+            System.out.println("Insert Tag Response" + insertResponse.toString());
+            if(insertResponse.getTag() != null) {
+                tagQuestionService.insert(new TagQuestion(insertResponse.getTag().getId(), questionId));
+            }
+        }
     }
 
     public TagResponse insert(Tag tag) {

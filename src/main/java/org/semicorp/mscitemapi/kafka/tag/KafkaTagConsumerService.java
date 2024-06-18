@@ -18,7 +18,7 @@ public class KafkaTagConsumerService {
 
     @KafkaListener(topics = "tags-topic", groupId = "tags-group-id",
                     containerFactory = "kafkaTagsListenerContainerFactory")
-    public void consume(QuestionTagsList questionTagsList) {
+    public void consumeTagsList(QuestionTagsList questionTagsList) {
         log.info("Consumed tags message: {}", questionTagsList);
         tagService.assignTagsToQuestion(questionTagsList);
     }

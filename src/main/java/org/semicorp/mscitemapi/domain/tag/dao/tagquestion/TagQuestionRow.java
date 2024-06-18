@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.domain.tag.dao;
+package org.semicorp.mscitemapi.domain.tag.dao.tagquestion;
 
 import lombok.*;
 import org.semicorp.mscitemapi.domain.tag.TagQuestion;
@@ -16,5 +16,4 @@ public class TagQuestionRow {
         this.tagId = tagQuestion.getTagId();
         this.questionId = tagQuestion.getQuestionId();
     }
-
 }

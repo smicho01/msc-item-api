@@ -1,12 +1,10 @@
-package org.semicorp.mscitemapi.domain.tag.dao;
+package org.semicorp.mscitemapi.domain.tag.dao.tag;
 
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
-import org.semicorp.mscitemapi.domain.question.dao.QueryQuestion;
-import org.semicorp.mscitemapi.domain.question.dao.QuestionRow;
 import org.semicorp.mscitemapi.domain.tag.Tag;
 import org.semicorp.mscitemapi.domain.tag.rowmappers.TagRowMapper;
 

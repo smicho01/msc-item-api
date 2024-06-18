@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.domain.tag.dao;
+package org.semicorp.mscitemapi.domain.tag.dao.tag;
 
 import lombok.*;
 import org.semicorp.mscitemapi.domain.tag.Tag;
