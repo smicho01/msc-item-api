@@ -5,6 +5,7 @@ import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
 import org.semicorp.mscitemapi.kafka.tag.KafkaTagProducerService;
+import org.semicorp.mscitemapi.kafka.tag.entity.QuestionTagsList;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,9 +69,11 @@ public class QuestionController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
 
-        // TODO: insert tags
-        List<String> tags = addQuestionDTO.getTags();
-        kafkaTagProducerService.sendMessage(tags);
+        // Send tags list to Kafka to insert/assign them async.
+        if(!addQuestionDTO.getTags().isEmpty()) {
+            QuestionTagsList questionTagsList = new QuestionTagsList(result.getId(), addQuestionDTO.getTags());
+            kafkaTagProducerService.sendMessage(questionTagsList);
+        }
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
