@@ -34,6 +34,10 @@ public interface QuestionDAO {
     @SqlQuery(QueryQuestion.QUERY_FIND_QUESTIONS_BY_TAG_ID)
     List<QuestionFullDTO> findQuestionsByTagId(@Bind("tagId") String tagId);
 
+    @RegisterRowMapper(QuestionFullDTORowMapper.class)
+    @SqlQuery(QueryQuestion.QUERY_FIND_QUESTIONS_BY_TAG_NAME)
+    List<QuestionFullDTO> findQuestionsByTagName(@Bind("tagName") String tagName);
+
     @SqlUpdate(QueryQuestion.QUERY_INSERT_QUESTION)
     boolean insert(@BindBean final QuestionRow questionRow);
 }

@@ -40,6 +40,10 @@ public class QuestionService {
         return jdbi.onDemand(QuestionDAO.class).findQuestionsByTagId(tagId);
     }
 
+    public List<QuestionFullDTO> findQuestionsByTagName(String tagName) {
+        return jdbi.onDemand(QuestionDAO.class).findQuestionsByTagName(tagName);
+    }
+
     public Question insert(Question question) {
         question.setId(UUID.randomUUID().toString());
         question.setStatus(QuestionStatus.PENDING);

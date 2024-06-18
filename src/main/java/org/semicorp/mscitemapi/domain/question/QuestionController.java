@@ -60,11 +60,19 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
-    @GetMapping("/tag/{tagId}")
+    @GetMapping("/tagid/{tagId}")
     public ResponseEntity<List<QuestionFullDTO>> getQuestionsByTagId(
             @PathVariable(value="tagId") String tagId)  {
 
         List<QuestionFullDTO> userQuestions = questionService.findQuestionsByTagId(tagId);
+        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+    }
+
+    @GetMapping("/tagname/{tagName}")
+    public ResponseEntity<List<QuestionFullDTO>> getQuestionsByTagName(
+            @PathVariable(value="tagName") String tagName)  {
+
+        List<QuestionFullDTO> userQuestions = questionService.findQuestionsByTagName(tagName);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
