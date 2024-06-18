@@ -28,4 +28,21 @@ public class QueryQuestion {
     static final String QUERY_INSERT_QUESTION = "INSERT INTO items.question (id, title, content, userId, userName, collegeId, moduleId, status) " +
             "VALUES(:id, :title, :content, :userId, :userName, :collegeId, :moduleId, :status);";
 
+
+    static final String QUERY_FIND_QUESTIONS_BY_TAG_ID = "SELECT q.*, m.name as moduleName, c.name as collegeName\n" +
+            "FROM items.question as q, items.tag_question as tq, items.college as c, items.module as m\n" +
+            "WHERE q.id = tq.question_id\n" +
+            "AND q.collegeId = c.id \n" +
+            "AND q.moduleId = m.id\n" +
+            "AND tq.tag_id = :tagId;";
+
+    static final String QUERY_FIND_QUESTIONS_BY_TAG_NAME = "SELECT q.*, m.name as moduleName, c.name as collegeName\n" +
+            "FROM items.question as q, items.tag_question as tq, items.college as c, items.module as m, items.tag as t\n" +
+            "WHERE q.id = tq.question_id\n" +
+            "AND q.collegeId = c.id \n" +
+            "AND q.moduleId = m.id\n" +
+            "AND t.id = tq.tag_id\t\n" +
+            "AND LOWER(t.name) = LOWER(:tagName);";
 }
+
+

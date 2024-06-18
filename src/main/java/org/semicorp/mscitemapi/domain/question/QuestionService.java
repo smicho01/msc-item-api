@@ -6,6 +6,10 @@ import org.jdbi.v3.core.Jdbi;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionDAO;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionRow;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
+import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
+import org.semicorp.mscitemapi.domain.tag.Tag;
+import org.semicorp.mscitemapi.domain.tag.TagService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.UUID;
 public class QuestionService {
 
     private final Jdbi jdbi;
+    private final TagService tagService;
 
 
     public List<QuestionFullDTO> findAll() {
@@ -27,6 +32,9 @@ public class QuestionService {
     public List<QuestionFullDTO> findAllShort() {
         return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
+    public QuestionFullDTO findById(String questionId) {
+        return jdbi.onDemand(QuestionDAO.class).findById(questionId);
+    }
 
     public List<QuestionFullDTO> findByUserId(String userId) {
         return jdbi.onDemand(QuestionDAO.class).findAllByUserId(userId);
@@ -34,6 +42,22 @@ public class QuestionService {
 
     public List<QuestionFullDTO> findByUserIdShort(String userId) {
         return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
+    }
+
+    public List<QuestionFullDTO> findQuestionsByTagId(String tagId) {
+        return jdbi.onDemand(QuestionDAO.class).findQuestionsByTagId(tagId);
+    }
+
+    public List<QuestionFullDTO> findQuestionsByTagName(String tagName) {
+        return jdbi.onDemand(QuestionDAO.class).findQuestionsByTagName(tagName);
+    }
+
+    public QuestionFullWithTagsDTO findQuestionWithTags(String questionId) {
+        QuestionFullDTO foundQuestion = findById(questionId);
+        List<Tag> tagsForQuestionId = tagService.findTagsForQuestionId(questionId);
+        QuestionFullWithTagsDTO questionWithTags = QuestionMapper.toQuestionWithTags(
+                    foundQuestion, tagsForQuestionId);
+        return questionWithTags;
     }
 
     public Question insert(Question question) {
