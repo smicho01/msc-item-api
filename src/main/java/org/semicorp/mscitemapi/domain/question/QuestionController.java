@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
+import org.semicorp.mscitemapi.kafka.tag.KafkaTagProducerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,12 @@ import java.util.List;
 @Slf4j
 public class QuestionController {
 
-    private  final QuestionService questionService;
+    private final QuestionService questionService;
+    private final KafkaTagProducerService kafkaTagProducerService;
 
-    public QuestionController(QuestionService questionService) {
+    public QuestionController(QuestionService questionService, KafkaTagProducerService kafkaTagProducerService) {
         this.questionService = questionService;
+        this.kafkaTagProducerService = kafkaTagProducerService;
     }
 
 
@@ -66,7 +69,8 @@ public class QuestionController {
         }
 
         // TODO: insert tags
-        System.out.println(addQuestionDTO.getTags());
+        List<String> tags = addQuestionDTO.getTags();
+        kafkaTagProducerService.sendMessage(tags);
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }

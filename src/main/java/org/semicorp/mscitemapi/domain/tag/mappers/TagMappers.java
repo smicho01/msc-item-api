@@ -1,4 +1,4 @@
-package org.semicorp.mscitemapi.domain.tag.mappera;
+package org.semicorp.mscitemapi.domain.tag.mappers;
 import org.semicorp.mscitemapi.domain.tag.Tag;
 import java.util.List;
 
