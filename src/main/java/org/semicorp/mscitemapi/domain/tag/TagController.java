@@ -41,6 +41,11 @@ public class TagController {
         return new ResponseEntity<>(tagService.findByName(tagName), HttpStatus.OK);
     }
 
+    @GetMapping("/question/{questionId}")
+    public ResponseEntity<List<Tag>> getTagsForQuestionId(@PathVariable(value="questionId") String questionId) {
+        return new ResponseEntity<>(tagService.findTagsForQuestionId(questionId), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<TagResponse> addTag(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                       @RequestBody Tag tag) {

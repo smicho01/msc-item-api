@@ -27,4 +27,8 @@ public interface TagDAO {
     @SqlUpdate(QueryTag.QUERY_INSERT)
     boolean insert(@BindBean final TagRow tagRow);
 
+    @RegisterRowMapper(TagRowMapper.class)
+    @SqlQuery(QueryTag.GET_TAGS_FOR_QUESTION_ID)
+    List<Tag> findTagsForQuestionId(@Bind("questionId") String questionId);
+
 }

@@ -22,8 +22,9 @@ public class TagQuestionService {
             boolean insert = jdbi.onDemand(TagQuestionDAO.class).insert(new TagQuestionRow(tagQuestion));
         } catch(Exception e) {
             log.error("Can't insert TagQuestion: {}", tagQuestion);
+            return null;
         }
-
+        log.info("Assigned tag id {} to post id {}", tagQuestion.getTagId(), tagQuestion.getQuestionId() );
         return tagQuestion;
     }
 }

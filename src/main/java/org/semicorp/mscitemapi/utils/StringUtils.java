@@ -23,7 +23,7 @@ public class StringUtils {
      */
     public static boolean incorrectString(String input) {
         // Regular expression for special characters
-        String specialCharacters = ".*[&\\W].*";
+        String specialCharacters = ".*[^\\s\\w&].*";
 
         // Check if string has special characters
         return input.matches(specialCharacters);

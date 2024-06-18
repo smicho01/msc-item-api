@@ -33,6 +33,9 @@ public class TagService {
     public Tag findByName(String tagName) {
         return jdbi.onDemand(TagDAO.class).findByName(tagName);
     }
+    public List<Tag> findTagsForQuestionId(String questionId) {
+        return jdbi.onDemand(TagDAO.class).findTagsForQuestionId(questionId);
+    }
 
     public void assignTagsToQuestion(QuestionTagsList questionTagsList) {
         String questionId = questionTagsList.getQuestionId();
@@ -45,7 +48,6 @@ public class TagService {
         for(String tagString: tagStrings) {
             // Insert tag if not exists or return existing tag
             TagResponse insertResponse = insert(new Tag(null, tagString));
-            System.out.println("Insert Tag Response" + insertResponse.toString());
             if(insertResponse.getTag() != null) {
                 tagQuestionService.insert(new TagQuestion(insertResponse.getTag().getId(), questionId));
             }
@@ -59,6 +61,7 @@ public class TagService {
         tag.setName(StringUtils.cleanString(tag.getName()));
         // Do not insert if any incorrect characters in string after above cleaning.
         if(StringUtils.incorrectString(tag.getName())) {
+            log.warn("Incorrect tag string: {}", tag.getName());
             return new TagResponse(tag, HttpStatus.BAD_REQUEST, "Incorrect characters in tag name");
         }
 
