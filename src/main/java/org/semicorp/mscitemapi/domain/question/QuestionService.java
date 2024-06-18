@@ -36,6 +36,10 @@ public class QuestionService {
         return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
     }
 
+    public List<QuestionFullDTO> findQuestionsByTagId(String tagId) {
+        return jdbi.onDemand(QuestionDAO.class).findQuestionsByTagId(tagId);
+    }
+
     public Question insert(Question question) {
         question.setId(UUID.randomUUID().toString());
         question.setStatus(QuestionStatus.PENDING);

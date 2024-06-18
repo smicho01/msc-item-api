@@ -60,6 +60,14 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
+    @GetMapping("/tag/{tagId}")
+    public ResponseEntity<List<QuestionFullDTO>> getQuestionsByTagId(
+            @PathVariable(value="tagId") String tagId)  {
+
+        List<QuestionFullDTO> userQuestions = questionService.findQuestionsByTagId(tagId);
+        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Question> addQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                         @RequestBody AddQuestionDTO addQuestionDTO) {
