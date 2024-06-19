@@ -23,7 +23,9 @@ public class QuestionRowMapper implements RowMapper<Question> {
                 rs.getString("userName"),
                 rs.getString("collegeId"),
                 rs.getString("moduleId"),
-                QuestionStatus.valueOf(rs.getString("status"))
+                QuestionStatus.valueOf(rs.getString("status")),
+                rs.getTimestamp("dateCreated").toLocalDateTime(),
+                rs.getTimestamp("dateModified").toLocalDateTime()
         );
     }
 }

@@ -2,6 +2,8 @@ package org.semicorp.mscitemapi.domain.question;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @Setter
@@ -18,4 +20,6 @@ public class Question {
     private String collegeId;
     private String moduleId;
     private QuestionStatus status = QuestionStatus.PENDING;
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateModified;
 }

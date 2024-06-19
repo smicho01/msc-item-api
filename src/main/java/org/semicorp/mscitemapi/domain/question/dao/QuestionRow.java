@@ -5,6 +5,8 @@ import lombok.*;
 import org.semicorp.mscitemapi.domain.question.Question;
 import org.semicorp.mscitemapi.domain.question.QuestionStatus;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,6 +21,8 @@ public class QuestionRow {
     private String collegeId;
     private String moduleId;
     private QuestionStatus status;
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateModified;
 
     public QuestionRow(@NonNull final Question question) {
         this.id = question.getId();
@@ -29,6 +33,8 @@ public class QuestionRow {
         this.collegeId = question.getCollegeId();
         this.moduleId = question.getModuleId();
         this.status = question.getStatus();
+        this.dateCreated = question.getDateCreated();
+        this.dateModified = question.getDateModified();
     }
 
 }

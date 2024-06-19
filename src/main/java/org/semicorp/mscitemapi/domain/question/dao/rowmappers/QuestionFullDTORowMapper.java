@@ -21,7 +21,9 @@ public class QuestionFullDTORowMapper implements RowMapper<QuestionFullDTO> {
                 rs.getString("collegeName"),
                 rs.getString("moduleId"),
                 rs.getString("moduleName"),
-                QuestionStatus.valueOf(rs.getString("status"))
+                QuestionStatus.valueOf(rs.getString("status")),
+                rs.getTimestamp("dateCreated").toLocalDateTime(),
+                rs.getTimestamp("dateModified").toLocalDateTime()
         );
     }
 
