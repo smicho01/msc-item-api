@@ -16,6 +16,7 @@ public class AnswerRow {
     private String content;
     private String questionId;
     private String userId;
+    private String userName;
     private ItemStatus status = ItemStatus.PENDING;
     private boolean best; // is selected as best answer ?
     private LocalDateTime dateCreated;
@@ -26,6 +27,7 @@ public class AnswerRow {
         this.content = answer.getContent();
         this.questionId = answer.getQuestionId();
         this.userId = answer.getUserId();
+        this.userName = answer.getUserName();
         this.status = answer.getStatus();
         this.best = answer.isBest();
         this.dateCreated = answer.getDateCreated();

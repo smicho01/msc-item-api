@@ -25,15 +25,6 @@ public class QuestionService {
 
 
     public List<QuestionFullDTO> findAll() {
-
-//        List<QuestionFullDTO> questions = jdbi.withHandle(handle -> {
-//            return handle.createQuery("SELECT * FROM items.question")
-//                    .mapToBean(QuestionFullDTO.class)
-//                    .list();
-//
-//        });
-//        System.out.println("Mam pytania: " + questions.size());
-
         return jdbi.onDemand(QuestionDAO.class).findAll();
     }
 
@@ -41,6 +32,25 @@ public class QuestionService {
     public List<QuestionFullDTO> findAllShort() {
         return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
+
+    public List<QuestionFullDTO> findAllShortStatus(String status, int limit) {
+        log.info("findAllShortStatus with status: {} and limit: {}", status, limit);
+        String sql = "SELECT q.*, m.name as moduleName, c.name as collegeName " +
+                " FROM items.question as q, items.module as m, items.college as c " +
+                " WHERE q.moduleid = m.id AND q.collegeid = c.id " +
+                " AND LOWER(status) = LOWER(:status) ORDER BY q.datecreated DESC LIMIT :limit;";
+
+        List<QuestionFullDTO> questions = jdbi.withHandle(handle -> {
+            return handle.createQuery(sql)
+                    .bind("status", status)
+                    .bind("limit", limit)
+                    .mapToBean(QuestionFullDTO.class)
+                    .list();
+
+        });
+        return questions;
+    }
+
     public QuestionFullDTO findById(String questionId) {
         return jdbi.onDemand(QuestionDAO.class).findById(questionId);
     }
@@ -91,4 +101,5 @@ public class QuestionService {
     public List<QuestionFullDTO> getUserQuestionsShort(String userId) {
         return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
+
 }

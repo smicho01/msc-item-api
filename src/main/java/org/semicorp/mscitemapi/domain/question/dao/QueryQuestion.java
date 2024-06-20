@@ -24,7 +24,7 @@ public class QueryQuestion {
             "ORDER BY datecreated DESC";
 
     static final String QUERY_FIND_ALL_SHORT = "SELECT q.id, q.title, LEFT(q.content, 100) as content, q.userid, q.username, q.collegeid, q.moduleid, q.status,\n" +
-            "\t m.name as moduleName, c.name as collegeName \n" +
+            "\t m.name as moduleName, c.name as collegeName, q.dateCreated, q.dateModified \n" +
             "FROM items.question as q , items.college as c, items.module as m\n" +
             "WHERE q.collegeId = c.id AND q.moduleId = m.id";
 

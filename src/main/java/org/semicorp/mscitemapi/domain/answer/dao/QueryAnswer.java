@@ -2,17 +2,24 @@ package org.semicorp.mscitemapi.domain.answer.dao;
 
 public class QueryAnswer {
 
+
     static final String QUERY_FIND_ALL = "SELECT * from items.answer;";
+
+    public static final String QUERY_FIND_ALL_WITH_STATUS = "SELECT * from items.answer as a \n" +
+            "WHERE a.status = :status\n" +
+            "ORDER BY a.dateCreated DESC";
+
     static final String QUERY_FIND_ALL_FOR_QUESTION_ID = "SELECT * from items.answer as a \n" +
             "WHERE a.questionId = :questionId\n" +
             "ORDER BY a.dateCreated DESC;";
+
     static final String QUERY_FIND_ALL_FOR_QUESTION_ID_WITH_STATUS = "SELECT * from items.answer as a \n" +
             "WHERE a.questionId = :questionId\n" +
             "AND LOWER(a.status) = LOWER(:status)\n" +
             "ORDER BY a.dateCreated DESC;";
 
-    static final String QUERY_INSERT_ANSWER = "INSERT INTO items.answer (id, content, questionId, userId, status) " +
-            "VALUES(:id, :content, :questionId, :userId, :status);";
+    static final String QUERY_INSERT_ANSWER = "INSERT INTO items.answer (id, content, questionId, userId, userName, status) " +
+            "VALUES(:id, :content, :questionId, :userId, :userName, :status);";
 
     static final String QUERY_FIND_ALL_ACTIVE_AND_ALL_FOR_USER_ID_ALL_STATUSES = "SELECT *\n" +
             "FROM items.answer a\n" +

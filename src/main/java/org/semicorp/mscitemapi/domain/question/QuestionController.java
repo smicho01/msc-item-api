@@ -50,13 +50,22 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
-
     @GetMapping("/short")
     public ResponseEntity<List<QuestionFullDTO>> getAllQuestionsShort(
-                        @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
-        log.info("Get all questions");
-        List<QuestionFullDTO> userQuestions = questionService.findAllShort();
-        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+                        @RequestParam(value = "status", required = false) String status,
+                        @RequestParam(value = "limit", required = false) Integer limit )  {
+        log.info("Calling ge all questions short");
+        if(limit == null) {
+            limit = 50;
+        }
+        if(status != null) {
+            List<QuestionFullDTO> response = questionService.findAllShortStatus(status, limit);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        //List<QuestionFullDTO> response = questionService.findAllShort();
+        List<QuestionFullDTO> response = questionService.findAllShortStatus("ACTIVE", 50);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

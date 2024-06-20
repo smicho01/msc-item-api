@@ -26,7 +26,10 @@ public interface AnswerDAO {
     List<Answer> findAllActiveAndAllStatusesForUserId(@Bind("questionId") String questionId,
                                               @Bind("userId") String userId);
 
+    @RegisterRowMapper(AnswerRowMapper.class)
+    @SqlQuery(QueryAnswer.QUERY_FIND_ALL_WITH_STATUS)
+    List<Answer> findAllAnswersWithStatus(@Bind("status") String status);
+
     @SqlUpdate(QueryAnswer.QUERY_INSERT_ANSWER)
     boolean insert(@BindBean final AnswerRow questionRow);
-
 }

@@ -19,6 +19,10 @@ public class AnswerService {
 
     private final Jdbi jdbi;
 
+    public List<Answer> getAllAnswersWithStatus(String status) {
+        return jdbi.onDemand(AnswerDAO.class).findAllAnswersWithStatus(status);
+    }
+
     public List<Answer> getAllAnswersByQuestionId(String questionId) {
         return jdbi.onDemand(AnswerDAO.class).findAllByQuestionId(questionId);
     }

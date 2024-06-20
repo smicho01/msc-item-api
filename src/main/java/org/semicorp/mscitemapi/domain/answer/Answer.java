@@ -17,6 +17,7 @@ public class Answer {
     private String content;
     private String questionId;
     private String userId;
+    private String userName;
     private ItemStatus status = ItemStatus.PENDING;
     private boolean best; // is selected as best answer ?
     private LocalDateTime dateCreated;

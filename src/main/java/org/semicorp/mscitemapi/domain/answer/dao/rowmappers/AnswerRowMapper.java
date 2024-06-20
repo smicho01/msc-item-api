@@ -16,6 +16,7 @@ public class AnswerRowMapper implements RowMapper<Answer> {
                 rs.getString("content"),
                 rs.getString("questionId"),
                 rs.getString("userId"),
+                rs.getString("userName"),
                 ItemStatus.valueOf(rs.getString("status")),
                 rs.getBoolean("best"),
                 rs.getTimestamp("dateCreated").toLocalDateTime(),

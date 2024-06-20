@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS items.answer (
     content TEXT NOT NULL,
     userId VARCHAR(36) NOT NULL,
     questionId VARCHAR(36) NOT NULL,
+    userName VARCHAR(100) NOT NULL,
     dateCreated timestamp default now(),
     dateModified timestamp default now(),
     status VARCHAR(40) NOT NULL,

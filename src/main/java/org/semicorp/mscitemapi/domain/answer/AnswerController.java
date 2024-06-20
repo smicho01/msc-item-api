@@ -19,6 +19,13 @@ public class AnswerController {
         this.answerService = answerService;
     }
 
+
+    @GetMapping
+    public ResponseEntity<List<Answer>> getActiveAnswers(@RequestParam(value = "status", required = false) String status)  {
+        List<Answer> response = answerService.getAllAnswersWithStatus(status);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("{questionId}")
     public ResponseEntity<List<Answer>> getAnswersForQuestionId(@PathVariable(value="questionId") String questionId)  {
         List<Answer> response = answerService.getAllAnswersByQuestionId(questionId);
@@ -45,6 +52,7 @@ public class AnswerController {
 
     @PostMapping ResponseEntity<Answer> addAnswer(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                                   @RequestBody Answer answer) {
+        System.out.println(answer);
         Answer result = answerService.insert(answer);
         if (result == null) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
