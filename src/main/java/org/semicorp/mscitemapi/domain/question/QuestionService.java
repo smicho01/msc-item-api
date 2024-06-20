@@ -25,6 +25,15 @@ public class QuestionService {
 
 
     public List<QuestionFullDTO> findAll() {
+
+//        List<QuestionFullDTO> questions = jdbi.withHandle(handle -> {
+//            return handle.createQuery("SELECT * FROM items.question")
+//                    .mapToBean(QuestionFullDTO.class)
+//                    .list();
+//
+//        });
+//        System.out.println("Mam pytania: " + questions.size());
+
         return jdbi.onDemand(QuestionDAO.class).findAll();
     }
 
@@ -62,7 +71,7 @@ public class QuestionService {
 
     public Question insert(Question question) {
         question.setId(UUID.randomUUID().toString());
-        question.setStatus(QuestionStatus.PENDING);
+        question.setStatus(ItemStatus.PENDING);
         // TODO: [improvement] check if question has been asked (calculate hash and compare?)
         try {
             log.info("Attempt to add question. Id: {} for user id: {}", question.getId(), question.getUserId());

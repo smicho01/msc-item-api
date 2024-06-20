@@ -16,7 +16,8 @@ public class QueryQuestion {
             "WHERE q.collegeId = c.id AND q.moduleId = m.id AND q.userid =:userId\n" +
             "ORDER BY datecreated DESC";
 
-    public static final String QUERY_FIND_BY_USERID_SHORT = "SELECT q.id, q.title, LEFT(q.content, 100) as content, q.userid, q.username, q.collegeid, q.moduleid, q.status,\n" +
+    public static final String QUERY_FIND_BY_USERID_SHORT = "SELECT q.id, q.title, LEFT(q.content, 100) as content, " +
+            "q.userid, q.username, q.collegeid, q.moduleid, q.status, q.datecreated, q.datemodified, \n" +
             "\t m.name as moduleName, c.name as collegeName \n" +
             "FROM items.question as q , items.college as c, items.module as m\n" +
             "WHERE q.collegeId = c.id AND q.moduleId = m.id AND q.userid =:userId\n" +

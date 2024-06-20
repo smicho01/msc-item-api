@@ -8,5 +8,6 @@ databaseChangeLog:
   - include:
       file: changelog/004-create-table-tags.json
   - include:
+      file: changelog/005-create-table-answer.json
+  - include:
       file: changelog/199-insert-dummy-data.json
-

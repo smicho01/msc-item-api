@@ -1,7 +1,7 @@
 package org.semicorp.mscitemapi.domain.question.mappers;
 
 import org.semicorp.mscitemapi.domain.question.Question;
-import org.semicorp.mscitemapi.domain.question.QuestionStatus;
+import org.semicorp.mscitemapi.domain.question.ItemStatus;
 import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
@@ -19,7 +19,7 @@ public class QuestionMapper {
                 .userName(addQuestionDTO.getUserName())
                 .collegeId(addQuestionDTO.getCollegeId())
                 .moduleId(addQuestionDTO.getModuleId())
-                .status(QuestionStatus.PENDING)
+                .status(ItemStatus.PENDING)
                 .build();
     }
 
@@ -35,6 +35,8 @@ public class QuestionMapper {
                 .moduleId(questionFullDTO.getModuleId())
                 .moduleName(questionFullDTO.getModuleName())
                 .status(questionFullDTO.getStatus())
+                .dateCreated(questionFullDTO.getDateCreated())
+                .dateModified(questionFullDTO.getDateModified())
                 .tags(tagsList)
                 .build();
     }

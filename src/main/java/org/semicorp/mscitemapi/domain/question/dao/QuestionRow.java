@@ -3,7 +3,7 @@ package org.semicorp.mscitemapi.domain.question.dao;
 
 import lombok.*;
 import org.semicorp.mscitemapi.domain.question.Question;
-import org.semicorp.mscitemapi.domain.question.QuestionStatus;
+import org.semicorp.mscitemapi.domain.question.ItemStatus;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ public class QuestionRow {
     private String userName;
     private String collegeId;
     private String moduleId;
-    private QuestionStatus status;
+    private ItemStatus status;
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
 

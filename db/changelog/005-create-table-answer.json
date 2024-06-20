@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "005-create-table-answer",
+        "author": "S Michota",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "path": "sql/005-create-table-answer.sql"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

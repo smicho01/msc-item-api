@@ -1,7 +1,7 @@
 package org.semicorp.mscitemapi.domain.question.dto;
 
 import lombok.*;
-import org.semicorp.mscitemapi.domain.question.QuestionStatus;
+import org.semicorp.mscitemapi.domain.question.ItemStatus;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +23,7 @@ public class QuestionFullDTO {
     private String collegeName;
     private String moduleId;
     private String moduleName;
-    private QuestionStatus status;
+    private ItemStatus status;
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
 }
