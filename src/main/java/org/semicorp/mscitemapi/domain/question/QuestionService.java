@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionDAO;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionRow;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
@@ -33,18 +34,23 @@ public class QuestionService {
         return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
 
-    public List<QuestionFullDTO> findAllShortStatus(String status, int limit) {
+    public List<QuestionFullAnswersCountDTO> findAllShortStatus(String status, int limit) {
         log.info("findAllShortStatus with status: {} and limit: {}", status, limit);
-        String sql = "SELECT q.*, m.name as moduleName, c.name as collegeName " +
-                " FROM items.question as q, items.module as m, items.college as c " +
-                " WHERE q.moduleid = m.id AND q.collegeid = c.id " +
-                " AND LOWER(status) = LOWER(:status) ORDER BY q.datecreated DESC LIMIT :limit;";
+        String sql = "SELECT q.*, m.name as moduleName, c.name as collegeName, COUNT(a.id) AS answersCount\n" +
+                "FROM  items.question q\n" +
+                "JOIN  items.module m ON q.moduleid = m.id\n" +
+                "JOIN  items.college c ON q.collegeid = c.id\n" +
+                "LEFT JOIN  items.answer a ON q.id = a.questionId\n" +
+                "WHERE  LOWER(q.status) = LOWER(:status)\n" +
+                "GROUP BY q.id, m.name, c.name\n" +
+                "ORDER BY q.dateCreated DESC\n" +
+                "LIMIT :limit;";
 
-        List<QuestionFullDTO> questions = jdbi.withHandle(handle -> {
+        List<QuestionFullAnswersCountDTO> questions = jdbi.withHandle(handle -> {
             return handle.createQuery(sql)
                     .bind("status", status)
                     .bind("limit", limit)
-                    .mapToBean(QuestionFullDTO.class)
+                    .mapToBean(QuestionFullAnswersCountDTO.class)
                     .list();
 
         });
@@ -59,8 +65,33 @@ public class QuestionService {
         return jdbi.onDemand(QuestionDAO.class).findAllByUserId(userId);
     }
 
-    public List<QuestionFullDTO> findByUserIdShort(String userId) {
-        return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
+    public List<QuestionFullAnswersCountDTO> findByUserIdShort(String userId, String status, Integer limit) {
+        //return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
+        String statusSqlPart = "";
+        String limitSqlPart = " LIMIT 100 ";
+        if(status !=null) {
+            statusSqlPart = String.format("WHERE LOWER(q.status) = LOWER(%s)\n", status);
+        }
+
+        if(limit != null) {
+            limitSqlPart = String.format(" LIMIT %d", limit);
+        }
+
+        log.info("findAllShortStatus with status: {} and limit: {}", status, limit);
+        String sql = "SELECT q.*, m.name as moduleName, c.name as collegeName, COUNT(a.id) AS answersCount\n" +
+                "FROM  items.question q\n" +
+                "JOIN  items.module m ON q.moduleid = m.id\n" +
+                "JOIN  items.college c ON q.collegeid = c.id\n" +
+                "LEFT JOIN  items.answer a ON q.id = a.questionId\n" +
+                statusSqlPart +
+                "GROUP BY q.id, m.name, c.name\n" +
+                "ORDER BY q.dateCreated DESC\n" +
+                limitSqlPart;
+
+        List<QuestionFullAnswersCountDTO> questions = jdbi.withHandle(handle -> handle.createQuery(sql)
+                    .mapToBean(QuestionFullAnswersCountDTO.class)
+                    .list());
+        return questions;
     }
 
     public List<QuestionFullDTO> findQuestionsByTagId(String tagId) {

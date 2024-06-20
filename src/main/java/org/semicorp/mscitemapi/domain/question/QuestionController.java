@@ -2,6 +2,7 @@ package org.semicorp.mscitemapi.domain.question;
 
 import lombok.extern.slf4j.Slf4j;
 import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
@@ -51,7 +52,7 @@ public class QuestionController {
     }
 
     @GetMapping("/short")
-    public ResponseEntity<List<QuestionFullDTO>> getAllQuestionsShort(
+    public ResponseEntity<List<QuestionFullAnswersCountDTO>> getAllQuestionsShort(
                         @RequestParam(value = "status", required = false) String status,
                         @RequestParam(value = "limit", required = false) Integer limit )  {
         log.info("Calling ge all questions short");
@@ -59,12 +60,12 @@ public class QuestionController {
             limit = 50;
         }
         if(status != null) {
-            List<QuestionFullDTO> response = questionService.findAllShortStatus(status, limit);
+            List<QuestionFullAnswersCountDTO> response = questionService.findAllShortStatus(status, limit);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
         //List<QuestionFullDTO> response = questionService.findAllShort();
-        List<QuestionFullDTO> response = questionService.findAllShortStatus("ACTIVE", 50);
+        List<QuestionFullAnswersCountDTO> response = questionService.findAllShortStatus("ACTIVE", 50);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -78,10 +79,10 @@ public class QuestionController {
     }
 
     @GetMapping("/user/{userId}/short")
-    public ResponseEntity<List<QuestionFullDTO>> getUserQuestionsShort(
+    public ResponseEntity<List<QuestionFullAnswersCountDTO>> getUserQuestionsShort(
                         @PathVariable(value="userId") String userId)  {
         //log.info("Get questions for user  id: {}", userId);
-        List<QuestionFullDTO> userQuestions = questionService.findByUserIdShort(userId);
+        List<QuestionFullAnswersCountDTO> userQuestions = questionService.findByUserIdShort(userId,null, null);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
