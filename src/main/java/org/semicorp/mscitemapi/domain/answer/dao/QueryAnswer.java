@@ -3,6 +3,7 @@ package org.semicorp.mscitemapi.domain.answer.dao;
 public class QueryAnswer {
 
 
+    public static final String QUERY_FIND_BY_ID = "SELECT * from items.answer WHERE id =:id;";
     static final String QUERY_FIND_ALL = "SELECT * from items.answer;";
 
     public static final String QUERY_FIND_ALL_WITH_STATUS = "SELECT * from items.answer as a \n" +

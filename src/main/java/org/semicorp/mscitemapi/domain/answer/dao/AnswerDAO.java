@@ -9,8 +9,14 @@ import org.semicorp.mscitemapi.domain.answer.Answer;
 import org.semicorp.mscitemapi.domain.answer.dao.rowmappers.AnswerRowMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AnswerDAO {
+
+
+    @RegisterRowMapper(AnswerRowMapper.class)
+    @SqlQuery(QueryAnswer.QUERY_FIND_BY_ID)
+    Optional<Answer> findById(@Bind("id") String id);
 
     @RegisterRowMapper(AnswerRowMapper.class)
     @SqlQuery(QueryAnswer.QUERY_FIND_ALL_FOR_QUESTION_ID)
@@ -32,4 +38,8 @@ public interface AnswerDAO {
 
     @SqlUpdate(QueryAnswer.QUERY_INSERT_ANSWER)
     boolean insert(@BindBean final AnswerRow questionRow);
+
+    @SqlUpdate("UPDATE items.answer SET content = :content, userId = :userId, questionId = :questionId, " +
+            "username = :userName, dateModified = :dateModified, status = :status, best = :best WHERE id = :id")
+    void updateAnswer(@BindBean Answer answer);
 }

@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/answer")
@@ -27,8 +29,16 @@ public class AnswerController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("{questionId}")
+    @GetMapping("{answerId}")
+    public ResponseEntity<Answer> getAnswerById(@PathVariable(value="answerId") String answerId)  {
+        log.info("Get answers by id: {}", answerId);
+        Answer response = answerService.getById(answerId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/question/{questionId}")
     public ResponseEntity<List<Answer>> getAnswersForQuestionId(@PathVariable(value="questionId") String questionId)  {
+        log.info("Get answers for question id: {}", questionId);
         List<Answer> response = answerService.getAllAnswersByQuestionId(questionId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -68,6 +78,29 @@ public class AnswerController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+
+    @PatchMapping("/{id}")
+    ResponseEntity<Answer> updateAnswer(@PathVariable(value = "id") String answerId,
+                                        @RequestBody Answer answer) {
+        log.info("Answer update request. ID: {},  {}", answerId, answer);
+        Answer findAnswer = answerService.getById(answerId);
+        answer.setId(Optional.ofNullable(answer.getId()).orElse(findAnswer.getId()));
+        answer.setContent(Optional.ofNullable(answer.getContent()).orElse(findAnswer.getContent()));
+        answer.setUserId(Optional.ofNullable(answer.getUserId()).orElse(findAnswer.getUserId()));
+        answer.setQuestionId(Optional.ofNullable(answer.getQuestionId()).orElse(findAnswer.getQuestionId()));
+        answer.setUserName(Optional.ofNullable(answer.getUserName()).orElse(findAnswer.getUserName()));
+        answer.setDateCreated(Optional.ofNullable(answer.getDateCreated()).orElse(findAnswer.getDateCreated()));
+        answer.setStatus(Optional.ofNullable(answer.getStatus()).orElse(findAnswer.getStatus()));
+        answer.setBest(Optional.ofNullable(answer.isBest()).orElse(findAnswer.isBest()));
+        answer.setDateModified(LocalDateTime.now());
+        Answer reponse = answerService.updateAnswer(answerId, answer);
+        if(reponse != null) {
+            log.info("Answer updated");
+            return new ResponseEntity<>(reponse, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }
