@@ -6,6 +6,7 @@ import org.jdbi.v3.core.Jdbi;
 import org.semicorp.mscitemapi.domain.answer.dao.AnswerDAO;
 import org.semicorp.mscitemapi.domain.answer.dao.AnswerRow;
 import org.semicorp.mscitemapi.domain.question.ItemStatus;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,5 +54,32 @@ public class AnswerService {
         }
         log.info("Added answer with id: {} for question id: {}", answer.getId(), answer.getQuestionId());
         return answer;
+    }
+
+    public List<Answer> findByUserIdShort(String userId, String status, Integer limit) {
+        //return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
+        log.info("Called 'answer.findByUserIdShort' for userId: {}, status: {}, limit: {}", userId, status, limit);
+        String statusSqlPart = "";
+        String limitSqlPart = " LIMIT 100 ";
+        if(status !=null) {
+            statusSqlPart = String.format(" AND LOWER(a.status) = LOWER(%s)\n", status);
+        }
+
+        if(limit != null) {
+            limitSqlPart = String.format(" LIMIT %d", limit);
+        }
+
+        log.info("findAllShortStatus with status: {} and limit: {}", status, limit);
+        String sql = "SELECT a.* FROM items.answer  as a " +
+                "WHERE userid = '" + userId + "'" +
+                statusSqlPart +
+                "ORDER BY a.datecreated DESC\n" +
+                limitSqlPart;
+
+        List<Answer> questions = jdbi.withHandle(handle -> handle.createQuery(sql)
+                .mapToBean(Answer.class)
+                .list());
+        log.info("Response results: {}", questions.size());
+        return questions;
     }
 }

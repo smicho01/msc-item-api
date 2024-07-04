@@ -81,7 +81,7 @@ public class QuestionController {
     @GetMapping("/user/{userId}/short")
     public ResponseEntity<List<QuestionFullAnswersCountDTO>> getUserQuestionsShort(
                         @PathVariable(value="userId") String userId)  {
-        //log.info("Get questions for user  id: {}", userId);
+        log.info("Get questions 'short' for user  id: {}", userId);
         List<QuestionFullAnswersCountDTO> userQuestions = questionService.findByUserIdShort(userId,null, null);
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }

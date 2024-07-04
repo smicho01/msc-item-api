@@ -1,6 +1,7 @@
 package org.semicorp.mscitemapi.domain.answer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,14 @@ public class AnswerController {
         List<Answer> response = answerService.getAllActiveAndAllStatusesForUserId(questionId, userId);
         log.info("Get all active answers for question id {} or all statuses for user id {} answers. Size: {} ", questionId, userId, response.size());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}/short")
+    public ResponseEntity<List<Answer>> getUserQuestionsShort(
+            @PathVariable(value="userId") String userId)  {
+        log.info("Get questions 'short' for user  id: {}", userId);
+        List<Answer> userQuestions = answerService.findByUserIdShort(userId,null, null);
+        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
     @PostMapping ResponseEntity<Answer> addAnswer(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,

@@ -67,10 +67,11 @@ public class QuestionService {
 
     public List<QuestionFullAnswersCountDTO> findByUserIdShort(String userId, String status, Integer limit) {
         //return jdbi.onDemand(QuestionDAO.class).findAllByUserIdShort(userId);
+        log.info("Called 'question.findByUserIdShort' for userId: {}, status: {}, limit: {}", userId, status, limit);
         String statusSqlPart = "";
         String limitSqlPart = " LIMIT 100 ";
         if(status !=null) {
-            statusSqlPart = String.format("WHERE LOWER(q.status) = LOWER(%s)\n", status);
+            statusSqlPart = String.format(" AND LOWER(q.status) = LOWER(%s)\n", status);
         }
 
         if(limit != null) {
@@ -83,6 +84,7 @@ public class QuestionService {
                 "JOIN  items.module m ON q.moduleid = m.id\n" +
                 "JOIN  items.college c ON q.collegeid = c.id\n" +
                 "LEFT JOIN  items.answer a ON q.id = a.questionId\n" +
+                "WHERE q.userid = '" + userId + "'" +
                 statusSqlPart +
                 "GROUP BY q.id, m.name, c.name\n" +
                 "ORDER BY q.dateCreated DESC\n" +
@@ -91,6 +93,7 @@ public class QuestionService {
         List<QuestionFullAnswersCountDTO> questions = jdbi.withHandle(handle -> handle.createQuery(sql)
                     .mapToBean(QuestionFullAnswersCountDTO.class)
                     .list());
+        log.info("Response results: {}", questions.size());
         return questions;
     }
 
