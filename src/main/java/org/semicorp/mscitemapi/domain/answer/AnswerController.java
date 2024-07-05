@@ -81,7 +81,7 @@ public class AnswerController {
     }
 
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<Answer> updateAnswer(@PathVariable(value = "id") String answerId,
                                         @RequestBody Answer answer) {
         log.info("Answer update request. ID: {},  {}", answerId, answer);
@@ -101,6 +101,21 @@ public class AnswerController {
             return new ResponseEntity<>(reponse, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/best/{id}")
+    ResponseEntity<Answer> updateAnswerBestValue(@PathVariable(value = "id") String answerId,
+                                        @RequestParam("best") boolean best) {
+        log.info("Answer id: {} set `best` value to: {}", answerId, best);
+
+        boolean response = answerService.setBestValue(answerId, best);
+        Answer findAnswer = answerService.getById(answerId);
+        if(response) {
+            log.info("Answer `best` set to: {}", best);
+            return new ResponseEntity<>(findAnswer,  HttpStatus.BAD_REQUEST);
+        }
+        log.info("Error while setting Answer `best` value to: {}", best);
+        return new ResponseEntity<>(null,  HttpStatus.BAD_REQUEST);
     }
 
 }

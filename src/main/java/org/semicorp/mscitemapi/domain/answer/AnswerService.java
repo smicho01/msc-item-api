@@ -3,7 +3,9 @@ package org.semicorp.mscitemapi.domain.answer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.errors.ResourceNotFoundException;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.Update;
 import org.semicorp.mscitemapi.domain.answer.dao.AnswerDAO;
 import org.semicorp.mscitemapi.domain.answer.dao.AnswerRow;
 import org.semicorp.mscitemapi.domain.question.ItemStatus;
@@ -115,5 +117,21 @@ public class AnswerService {
             dao.updateAnswer(existingAnswer);
             return existingAnswer;
         });
+    }
+
+    public boolean setBestValue(String answerId, boolean best) {
+        try (Handle handle = jdbi.open()) {
+            for (int i = 0; i < 100_000; i++) {
+                try (Update update = handle.createUpdate("UPDATE items.answer SET best = :best WHERE id = :answerId")) {
+                    update.bind("best", best)
+                            .bind("answerId", answerId)
+                            .execute();
+                } catch (Exception e) {
+                    log.error("Error updating best value for answer id: {}, Error: {}", answerId, e.getMessage());
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
