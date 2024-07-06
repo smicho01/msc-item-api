@@ -41,7 +41,7 @@ public class AnswerService {
      * Finds all active answers and all answers with all statuses for a given user ID and question ID.
      *
      * @param questionId The ID of the question to search for.
-     * @param userId The ID of the user to search for.
+     * @param userId     The ID of the user to search for.
      * @return A list of Answer objects containing all the active answers and all the answers with all statuses for the given user ID and question ID.
      */
     public List<Answer> getAllActiveAndAllStatusesForUserId(String questionId, String userId) {
@@ -53,7 +53,7 @@ public class AnswerService {
         answer.setStatus(ItemStatus.PENDING);
         try {
             boolean insert = jdbi.onDemand(AnswerDAO.class).insert(new AnswerRow(answer));
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error("Can't insert answer for question id: {}", answer.getQuestionId());
             return null;
         }
@@ -66,11 +66,11 @@ public class AnswerService {
         log.info("Called 'answer.findByUserIdShort' for userId: {}, status: {}, limit: {}", userId, status, limit);
         String statusSqlPart = "";
         String limitSqlPart = " LIMIT 100 ";
-        if(status !=null) {
+        if (status != null) {
             statusSqlPart = String.format(" AND LOWER(a.status) = LOWER(%s)\n", status);
         }
 
-        if(limit != null) {
+        if (limit != null) {
             limitSqlPart = String.format(" LIMIT %d", limit);
         }
 
@@ -89,12 +89,12 @@ public class AnswerService {
     }
 
     public Answer getById(String answerId) {
-        log.info("Get answer by id: {}" , answerId);
+        log.info("Get answer by id: {}", answerId);
         String sql = "SELECT * FROM items.answer WHERE id = :answerId;";
         Optional<Answer> response = jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind("answerId", answerId)
                 .mapToBean(Answer.class)
-                        .findFirst());
+                .findFirst());
         if (response.isEmpty()) {
             log.info("Not found. Answer id: {}", answerId);
             return null;
@@ -121,16 +121,15 @@ public class AnswerService {
 
     public boolean setBestValue(String answerId, boolean best) {
         try (Handle handle = jdbi.open()) {
-            for (int i = 0; i < 100_000; i++) {
-                try (Update update = handle.createUpdate("UPDATE items.answer SET best = :best WHERE id = :answerId")) {
-                    update.bind("best", best)
-                            .bind("answerId", answerId)
-                            .execute();
-                } catch (Exception e) {
-                    log.error("Error updating best value for answer id: {}, Error: {}", answerId, e.getMessage());
-                    return false;
-                }
+            try (Update update = handle.createUpdate("UPDATE items.answer SET best = :best WHERE id = :answerId")) {
+                update.bind("best", best)
+                        .bind("answerId", answerId)
+                        .execute();
+            } catch (Exception e) {
+                log.error("Error updating best value for answer id: {}, Error: {}", answerId, e.getMessage());
+                return false;
             }
+
         }
         return true;
     }
