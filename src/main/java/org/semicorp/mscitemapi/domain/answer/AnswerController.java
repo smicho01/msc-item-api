@@ -116,7 +116,7 @@ public class AnswerController {
             log.warn("Answer `best` could not be set to: {}", best);
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            log.info("Error while setting Answer `best` value to: {}", best);
+            log.info("Error while setting Answer `best` value to: {}. ERROR: {}", best, e.getMessage());
             return new ResponseEntity<>(null,  HttpStatus.BAD_REQUEST);
         }
     }

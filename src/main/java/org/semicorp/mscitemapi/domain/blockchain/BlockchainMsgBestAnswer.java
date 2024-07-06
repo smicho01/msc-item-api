@@ -1,7 +1,9 @@
 package org.semicorp.mscitemapi.domain.blockchain;
 
-import lombok.*;
-import org.semicorp.mscitemapi.domain.answer.Answer;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.UUID;
 
@@ -18,9 +20,9 @@ public class BlockchainMsgBestAnswer {
 
 
     public BlockchainMsgBestAnswer(UUID messageUUID, String answerId, String questionId, String userId) {
-        this.messageId = messageId.toString();
+        this.messageId = messageUUID.toString();
         this.answerId = answerId;
-        this.questionId = answerId;
+        this.questionId = questionId;
         this.userId = userId;
     }
 }
