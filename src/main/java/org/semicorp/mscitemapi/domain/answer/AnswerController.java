@@ -2,15 +2,22 @@ package org.semicorp.mscitemapi.domain.answer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.semicorp.mscitemapi.domain.bestanswer.BestAnswer;
+import org.semicorp.mscitemapi.domain.bestanswer.BestAnswerService;
 import org.semicorp.mscitemapi.domain.blockchain.BlockchainMsgBestAnswer;
+import org.semicorp.mscitemapi.domain.question.Question;
+import org.semicorp.mscitemapi.domain.question.QuestionService;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
+import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.kafka.blockchain.KafkaBlockchainProducerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +29,8 @@ import java.util.UUID;
 public class AnswerController {
 
     private final AnswerService answerService;
+    private final BestAnswerService bestAnswerService;
+    private final QuestionService questionService;
     private final KafkaBlockchainProducerService kafkaBlockchainProducerService;
 
 
@@ -109,8 +118,16 @@ public class AnswerController {
                 UUID messageUUID = UUID.randomUUID(); //  To be used later in response message identification
                 BlockchainMsgBestAnswer bm = new BlockchainMsgBestAnswer(messageUUID, updatedAnswer.getId(),
                                 updatedAnswer.getQuestionId(), updatedAnswer.getUserId());
-                kafkaBlockchainProducerService.sendMessage(bm);
+                kafkaBlockchainProducerService.sendMessage(bm); // Send message to Kafka queue
 
+
+                // Save best answer to db to track possible frauds (e.g.same user select best answers)
+                QuestionFullDTO questionDto = questionService.findById(updatedAnswer.getQuestionId());
+                Date date = new java.util.Date();
+                Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+                BestAnswer bestAnswer = new BestAnswer(questionDto.getUserId(), updatedAnswer.getUserId(),
+                        questionDto.getId(), updatedAnswer.getId(),timestamp );
+                Boolean bestAnswerSaved = bestAnswerService.save(bestAnswer);
                 return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
             }
             log.warn("Answer `best` could not be set to: {}", best);

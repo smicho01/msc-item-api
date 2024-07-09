@@ -9,3 +9,17 @@ CREATE TABLE IF NOT EXISTS items.answer (
     status VARCHAR(40) NOT NULL,
     best BOOLEAN NOT NULL DEFAULT FALSE
 );
+
+CREATE INDEX idx_answer_userid ON items.answer(userId);
+CREATE INDEX idx_answer_questionid ON items.answer(questionId);
+
+CREATE TABLE IF NOT EXISTS items.bestanswer (
+    questionAuthorId VARCHAR(36),
+    answerAuthorId VARCHAR(36),
+    questionId VARCHAR(36),
+    answerId VARCHAR(36),
+    timestamp timestamp NOT NULL,
+    PRIMARY KEY (questionId, answerId)
+);
+CREATE INDEX idx_bestanswer_questionauthorid ON items.bestanswer(questionAuthorId);
+CREATE INDEX idx_bestanswer_answerauthorid ON items.bestanswer(answerAuthorId);
