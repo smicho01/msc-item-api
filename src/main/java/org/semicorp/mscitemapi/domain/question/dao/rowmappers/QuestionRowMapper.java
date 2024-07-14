@@ -23,7 +23,8 @@ public class QuestionRowMapper implements RowMapper<Question> {
                 rs.getString("moduleId"),
                 ItemStatus.valueOf(rs.getString("status")),
                 rs.getTimestamp("dateCreated").toLocalDateTime(),
-                rs.getTimestamp("dateModified").toLocalDateTime()
+                rs.getTimestamp("dateModified").toLocalDateTime(),
+                rs.getString("hash")
         );
     }
 }

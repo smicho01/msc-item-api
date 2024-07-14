@@ -26,4 +26,5 @@ public class QuestionFullDTO {
     private ItemStatus status;
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
+    private String hash;
 }

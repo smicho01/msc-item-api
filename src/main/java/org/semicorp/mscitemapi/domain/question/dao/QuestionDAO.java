@@ -44,4 +44,8 @@ public interface QuestionDAO {
 
     @SqlUpdate(QueryQuestion.QUERY_INSERT_QUESTION)
     boolean insert(@BindBean final QuestionRow questionRow);
+
+    @RegisterRowMapper(QuestionFullDTORowMapper.class)
+    @SqlQuery(QueryQuestion.QUERY_FIND_BY_TITLE_LIKE)
+    List<QuestionFullDTO> findByTitleLIKE(@Bind("phrase") String phrase);
 }

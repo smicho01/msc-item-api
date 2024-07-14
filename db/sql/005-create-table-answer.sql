@@ -7,11 +7,14 @@ CREATE TABLE IF NOT EXISTS items.answer (
     dateCreated timestamp default now(),
     dateModified timestamp default now(),
     status VARCHAR(40) NOT NULL,
-    best BOOLEAN NOT NULL DEFAULT FALSE
+    best BOOLEAN NOT NULL DEFAULT FALSE,
+    hash VARCHAR(128) NOT NULL UNIQUE
 );
 
 CREATE INDEX idx_answer_userid ON items.answer(userId);
 CREATE INDEX idx_answer_questionid ON items.answer(questionId);
+CREATE INDEX idx_answer_hash ON items.answer(hash);
+
 
 CREATE TABLE IF NOT EXISTS items.bestanswer (
     questionAuthorId VARCHAR(36),

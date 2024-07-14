@@ -11,5 +11,9 @@ CREATE TABLE IF NOT EXISTS items.question (
     moduleId VARCHAR(36) NOT NULL,
     status VARCHAR(40) NOT NULL,
     dateCreated timestamp default now(),
-    dateModified timestamp default now()
-    );
+    dateModified timestamp default now(),
+    hash VARCHAR(128) NOT NULL UNIQUE
+);
+CREATE INDEX idx_question_title ON items.question(title);
+CREATE INDEX idx_question_username ON items.question(userName);
+CREATE INDEX idx_question_hash ON items.question(hash);

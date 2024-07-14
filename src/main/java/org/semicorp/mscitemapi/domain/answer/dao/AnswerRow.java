@@ -21,6 +21,7 @@ public class AnswerRow {
     private boolean best; // is selected as best answer ?
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
+    private String hash;
 
     public AnswerRow(@NonNull final Answer answer) {
         this.id = answer.getId();
@@ -32,5 +33,6 @@ public class AnswerRow {
         this.best = answer.isBest();
         this.dateCreated = answer.getDateCreated();
         this.dateModified = answer.getDateModified();
+        this.hash = answer.getHash();
     }
 }

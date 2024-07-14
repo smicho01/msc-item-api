@@ -52,7 +52,7 @@ public class AnswerService {
         answer.setId(UUID.randomUUID().toString());
         answer.setStatus(ItemStatus.PENDING);
         try {
-            boolean insert = jdbi.onDemand(AnswerDAO.class).insert(new AnswerRow(answer));
+            jdbi.onDemand(AnswerDAO.class).insert(new AnswerRow(answer));
         } catch (Exception e) {
             log.error("Can't insert answer for question id: {}", answer.getQuestionId());
             return null;

@@ -19,8 +19,8 @@ public class QueryAnswer {
             "AND LOWER(a.status) = LOWER(:status)\n" +
             "ORDER BY a.dateCreated DESC;";
 
-    static final String QUERY_INSERT_ANSWER = "INSERT INTO items.answer (id, content, questionId, userId, userName, status) " +
-            "VALUES(:id, :content, :questionId, :userId, :userName, :status);";
+    static final String QUERY_INSERT_ANSWER = "INSERT INTO items.answer (id, content, questionId, userId, userName, status, hash) " +
+            "VALUES(:id, :content, :questionId, :userId, :userName, :status, :hash);";
 
     static final String QUERY_FIND_ALL_ACTIVE_AND_ALL_FOR_USER_ID_ALL_STATUSES = "SELECT *\n" +
             "FROM items.answer a\n" +

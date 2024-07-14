@@ -23,7 +23,8 @@ public class QuestionFullDTORowMapper implements RowMapper<QuestionFullDTO> {
                 rs.getString("moduleName"),
                 ItemStatus.valueOf(rs.getString("status")),
                 rs.getTimestamp("dateCreated").toLocalDateTime(),
-                rs.getTimestamp("dateModified").toLocalDateTime()
+                rs.getTimestamp("dateModified").toLocalDateTime(),
+                rs.getString("hash")
         );
     }
 

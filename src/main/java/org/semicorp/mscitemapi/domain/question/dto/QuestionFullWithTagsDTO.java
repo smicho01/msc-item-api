@@ -29,4 +29,5 @@ public class QuestionFullWithTagsDTO {
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
     private List<Tag> tags;
+    private String hash;
 }

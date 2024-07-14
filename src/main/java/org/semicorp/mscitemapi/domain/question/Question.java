@@ -22,4 +22,5 @@ public class Question {
     private ItemStatus status = ItemStatus.PENDING;
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
+    private String hash;
 }

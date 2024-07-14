@@ -27,4 +27,5 @@ public class QuestionFullAnswersCountDTO {
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
     private int answersCount = 0;
+    private String hash;
 }
