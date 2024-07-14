@@ -10,6 +10,7 @@ import org.semicorp.mscitemapi.domain.question.QuestionService;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.kafka.blockchain.KafkaBlockchainProducerService;
+import org.semicorp.mscitemapi.utils.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,12 +83,12 @@ public class AnswerController {
 
     @PostMapping ResponseEntity<Answer> addAnswer(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                                   @RequestBody Answer answer) {
-        System.out.println(answer);
+        String answerHash = StringUtils.generateHash(answer.getUserName(), answer.getContent(), answer.getQuestionId());
+        answer.setHash(answerHash);
         Answer result = answerService.insert(answer);
         if (result == null) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 

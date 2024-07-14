@@ -22,4 +22,5 @@ public class Answer {
     private boolean best; // is selected as best answer ?
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
+    private String hash;
 }

@@ -23,6 +23,7 @@ public class QuestionRow {
     private ItemStatus status;
     private LocalDateTime dateCreated;
     private LocalDateTime dateModified;
+    private String hash;
 
     public QuestionRow(@NonNull final Question question) {
         this.id = question.getId();
@@ -35,6 +36,7 @@ public class QuestionRow {
         this.status = question.getStatus();
         this.dateCreated = question.getDateCreated();
         this.dateModified = question.getDateModified();
+        this.hash = question.getHash();
     }
 
 }

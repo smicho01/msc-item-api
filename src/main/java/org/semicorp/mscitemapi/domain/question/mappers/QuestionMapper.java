@@ -20,6 +20,7 @@ public class QuestionMapper {
                 .collegeId(addQuestionDTO.getCollegeId())
                 .moduleId(addQuestionDTO.getModuleId())
                 .status(ItemStatus.PENDING)
+                .hash(addQuestionDTO.getHash())
                 .build();
     }
 
@@ -38,6 +39,7 @@ public class QuestionMapper {
                 .dateCreated(questionFullDTO.getDateCreated())
                 .dateModified(questionFullDTO.getDateModified())
                 .tags(tagsList)
+                .hash(questionFullDTO.getHash())
                 .build();
     }
 }

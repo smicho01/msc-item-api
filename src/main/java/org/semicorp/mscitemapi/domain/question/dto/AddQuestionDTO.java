@@ -23,4 +23,5 @@ public class AddQuestionDTO {
     private String moduleId;
     private ItemStatus status = ItemStatus.PENDING;
     private List<String> tags;
+    private String hash;
 }

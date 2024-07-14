@@ -136,4 +136,7 @@ public class QuestionService {
         return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
 
+    public List<QuestionFullDTO> findByTitleLIKE(String phrase) {
+        return jdbi.onDemand(QuestionDAO.class).findByTitleLIKE("%" + phrase + "%");
+    }
 }

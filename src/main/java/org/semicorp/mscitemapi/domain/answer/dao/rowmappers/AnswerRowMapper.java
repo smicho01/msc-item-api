@@ -20,7 +20,8 @@ public class AnswerRowMapper implements RowMapper<Answer> {
                 ItemStatus.valueOf(rs.getString("status")),
                 rs.getBoolean("best"),
                 rs.getTimestamp("dateCreated").toLocalDateTime(),
-                rs.getTimestamp("dateModified").toLocalDateTime()
+                rs.getTimestamp("dateModified").toLocalDateTime(),
+                rs.getString("hash")
         );
     }
 }

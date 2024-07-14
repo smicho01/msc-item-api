@@ -8,6 +8,7 @@ import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
 import org.semicorp.mscitemapi.kafka.tag.KafkaTagProducerService;
 import org.semicorp.mscitemapi.kafka.tag.entity.QuestionTagsList;
+import org.semicorp.mscitemapi.utils.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +79,15 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
+    /* User SQL search with LIKE clause to get titles containing given phrase */
+    @GetMapping("/like/{phrase}")
+    public ResponseEntity<List<QuestionFullDTO>> getUserTitleLIKE(
+            @PathVariable(value="phrase") String phrase)  {
+        log.info("Get question by title LIKE : {}", phrase);
+        List<QuestionFullDTO> questions = questionService.findByTitleLIKE(phrase);
+        return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
     @GetMapping("/user/{userId}/short")
     public ResponseEntity<List<QuestionFullAnswersCountDTO>> getUserQuestionsShort(
                         @PathVariable(value="userId") String userId)  {
@@ -105,6 +115,9 @@ public class QuestionController {
     @PostMapping
     public ResponseEntity<Question> addQuestion(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                         @RequestBody AddQuestionDTO addQuestionDTO) {
+        String questionHash = StringUtils.generateHash(addQuestionDTO.getUserName(),
+                        addQuestionDTO.getTitle(), addQuestionDTO.getContent());
+        addQuestionDTO.setHash(questionHash);
         Question result = questionService.insert(QuestionMapper.addQuestionDtoToQuestion(addQuestionDTO));
 
         if (result == null) {
