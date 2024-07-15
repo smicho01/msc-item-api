@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS items.answer (
     dateModified timestamp default now(),
     status VARCHAR(40) NOT NULL,
     best BOOLEAN NOT NULL DEFAULT FALSE,
-    hash VARCHAR(128) NOT NULL UNIQUE
+    hash VARCHAR(128) DEFAULT 'default_hash_value' NOT NULL
 );
 
 CREATE INDEX idx_answer_userid ON items.answer(userId);

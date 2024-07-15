@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS items.question (
     status VARCHAR(40) NOT NULL,
     dateCreated timestamp default now(),
     dateModified timestamp default now(),
-    hash VARCHAR(128) NOT NULL UNIQUE
+    hash VARCHAR(128) DEFAULT 'default_hash_value' NOT NULL
 );
 CREATE INDEX idx_question_title ON items.question(title);
 CREATE INDEX idx_question_username ON items.question(userName);
