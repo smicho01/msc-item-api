@@ -115,7 +115,7 @@ public class QuestionService {
 
     public Question insert(Question question) {
         question.setId(UUID.randomUUID().toString());
-        question.setStatus(ItemStatus.PENDING);
+        question.setStatus(ItemStatus.ACTIVE);
         // TODO: [improvement] check if question has been asked (calculate hash and compare?)
         try {
             log.info("Attempt to add question. Id: {} for user id: {}", question.getId(), question.getUserId());

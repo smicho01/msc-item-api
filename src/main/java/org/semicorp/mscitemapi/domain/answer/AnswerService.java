@@ -50,7 +50,7 @@ public class AnswerService {
 
     public Answer insert(Answer answer) {
         answer.setId(UUID.randomUUID().toString());
-        answer.setStatus(ItemStatus.PENDING);
+        answer.setStatus(ItemStatus.ACTIVE);
         try {
             jdbi.onDemand(AnswerDAO.class).insert(new AnswerRow(answer));
         } catch (Exception e) {
