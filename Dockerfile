@@ -7,6 +7,7 @@
 
 # User comand below to build for ARM and AMD
 #  docker buildx build --platform linux/amd64,linux/arm64 -t sever3d/academichain-item-service --push .
+#  docker build -t sever3d/academichain-item-service .
 
 # First stage: build the JAR file
 FROM maven:3.8.4-openjdk-17 AS build
