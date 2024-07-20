@@ -1,6 +1,3 @@
-
--- CREATE SCHEMA IF NOT EXISTS items;
-
 CREATE TABLE IF NOT EXISTS items.question (
     id VARCHAR(36)  PRIMARY KEY,
     title VARCHAR(250) NOT NULL,
