@@ -15,7 +15,6 @@ CREATE INDEX idx_answer_userid ON items.answer(userId);
 CREATE INDEX idx_answer_questionid ON items.answer(questionId);
 CREATE INDEX idx_answer_hash ON items.answer(hash);
 
-
 CREATE TABLE IF NOT EXISTS items.bestanswer (
     questionAuthorId VARCHAR(36),
     answerAuthorId VARCHAR(36),
