@@ -38,13 +38,6 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
-//    @GetMapping("{questionId}")
-//    public ResponseEntity<QuestionFullDTO> getQuestionById(
-//            @PathVariable(value="questionId") String questionId)  {
-//        QuestionFullDTO userQuestions = questionService.findById(questionId);
-//        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
-//    }
-
     @GetMapping("{questionId}")
     public ResponseEntity<QuestionFullWithTagsDTO> getQuestionById(
             @PathVariable(value="questionId") String questionId)  {
