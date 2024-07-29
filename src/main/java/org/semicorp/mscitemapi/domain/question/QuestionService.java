@@ -25,8 +25,14 @@ public class QuestionService {
     private final TagService tagService;
 
 
-    public List<QuestionFullDTO> findAll() {
-        return jdbi.onDemand(QuestionDAO.class).findAll();
+    public List<QuestionFullDTO> findAll(Integer limit) {
+        try {
+            log.info("Executing jdbi findAll() with limit {}", limit);
+            return jdbi.onDemand(QuestionDAO.class).findAll(limit);
+        } catch (Exception e){
+            log.error("Error while executing jdbi findAll(). ERROR: {}", e.getMessage());
+            return null;
+        }
     }
 
     /* SQL query truncate field `content` to specified length [100] characters */

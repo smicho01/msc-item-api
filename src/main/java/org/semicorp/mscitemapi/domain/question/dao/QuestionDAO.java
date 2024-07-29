@@ -14,7 +14,7 @@ public interface QuestionDAO {
 
     @RegisterRowMapper(QuestionFullDTORowMapper.class)
     @SqlQuery(QueryQuestion.QUERY_FIND_ALL)
-    List<QuestionFullDTO> findAll();
+    List<QuestionFullDTO> findAll(@Bind("limit") Integer limit);
 
     @RegisterRowMapper(QuestionFullDTORowMapper.class)
     @SqlQuery(QueryQuestion.QUERY_FIND_ONE)

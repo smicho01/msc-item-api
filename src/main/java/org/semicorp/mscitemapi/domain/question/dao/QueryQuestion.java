@@ -2,14 +2,14 @@ package org.semicorp.mscitemapi.domain.question.dao;
 
 public class QueryQuestion {
 
-
     static final String QUERY_FIND_ONE = "SELECT q.* , m.name as moduleName, c.name as collegeName " +
             "FROM items.question as q , items.college as c, items.module as m " +
             "WHERE q.collegeId = c.id AND q.moduleId = m.id AND q.id =:questionId";
 
     static final String QUERY_FIND_ALL = "SELECT q.* , m.name as moduleName, c.name as collegeName " +
             "FROM items.question as q , items.college as c, items.module as m " +
-            "WHERE q.collegeId = c.id AND q.moduleId = m.id";
+            "WHERE q.collegeId = c.id AND q.moduleId = m.id " +
+            "ORDER BY dateCreated DESC LIMIT :limit";
 
     public static final String QUERY_FIND_BY_USERID = "SELECT q.*, " +
             "m.name as moduleName, c.name as collegeName " +

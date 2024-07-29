@@ -1,5 +1,6 @@
 package org.semicorp.mscitemapi.domain.question;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
@@ -9,6 +10,7 @@ import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
 import org.semicorp.mscitemapi.kafka.tag.KafkaTagProducerService;
 import org.semicorp.mscitemapi.kafka.tag.entity.QuestionTagsList;
 import org.semicorp.mscitemapi.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +21,28 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/question")
 @Slf4j
+@RequiredArgsConstructor
 public class QuestionController {
+
+    @Value("${app.config.question.recordslimit}")
+    private Integer recordsLimit;
 
     private final QuestionService questionService;
     private final KafkaTagProducerService kafkaTagProducerService;
 
-    public QuestionController(QuestionService questionService, KafkaTagProducerService kafkaTagProducerService) {
-        this.questionService = questionService;
-        this.kafkaTagProducerService = kafkaTagProducerService;
-    }
-
 
     @GetMapping
     public ResponseEntity<List<QuestionFullDTO>> getAllQuestions(
-                        @RequestHeader(HttpHeaders.AUTHORIZATION) String token)  {
-        log.info("Get all questions");
-        List<QuestionFullDTO> userQuestions = questionService.findAll();
-        return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+                        @RequestParam(name = "limit", required = false) String limit)  {
+        recordsLimit = limit != null ? Integer.parseInt(limit) : recordsLimit;
+        log.info("Get all questions with limit {}", limit);
+        try {
+            List<QuestionFullDTO> userQuestions = questionService.findAll(recordsLimit);
+            return new ResponseEntity<>(userQuestions, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error while getting all questions. ERROR: {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("{questionId}")
