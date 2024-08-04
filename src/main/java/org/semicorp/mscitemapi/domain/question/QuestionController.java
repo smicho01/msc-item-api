@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/question")
@@ -82,9 +83,18 @@ public class QuestionController {
     /* User SQL search with LIKE clause to get titles containing given phrase */
     @GetMapping("/like/{phrase}")
     public ResponseEntity<List<QuestionFullDTO>> getUserTitleLIKE(
-            @PathVariable(value="phrase") String phrase)  {
+            @PathVariable(value="phrase") String phrase,
+            @RequestParam(required = false) Map<String, String> urlParams
+            )  {
         log.info("Get question by title LIKE : {}", phrase);
-        List<QuestionFullDTO> questions = questionService.findByTitleLIKE(phrase);
+
+        String userCollegeId = null;
+        if (urlParams.containsKey("collegeId") && urlParams.get("collegeId") != null) {
+            userCollegeId = urlParams.get("collegeId");
+            log.info("Request with parameter collegeId: {}", userCollegeId);
+        }
+
+        List<QuestionFullDTO> questions = questionService.findByTitleLIKE(phrase, userCollegeId);
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 
