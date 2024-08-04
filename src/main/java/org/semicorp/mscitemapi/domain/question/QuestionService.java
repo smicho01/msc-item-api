@@ -52,14 +52,11 @@ public class QuestionService {
                 "ORDER BY q.dateCreated DESC\n" +
                 "LIMIT :limit;";
 
-        List<QuestionFullAnswersCountDTO> questions = jdbi.withHandle(handle -> {
-            return handle.createQuery(sql)
+        List<QuestionFullAnswersCountDTO> questions = jdbi.withHandle(handle -> handle.createQuery(sql)
                     .bind("status", status)
                     .bind("limit", limit)
                     .mapToBean(QuestionFullAnswersCountDTO.class)
-                    .list();
-
-        });
+                    .list());
         return questions;
     }
 
@@ -142,7 +139,33 @@ public class QuestionService {
         return jdbi.onDemand(QuestionDAO.class).findAllShort();
     }
 
-    public List<QuestionFullDTO> findByTitleLIKE(String phrase) {
-        return jdbi.onDemand(QuestionDAO.class).findByTitleLIKE("%" + phrase + "%");
+    public List<QuestionFullDTO> findByTitleLIKE(String phrase, String collegeId) {
+        log.info("Get question by title like: {}", phrase);
+        try {
+            String collegeWhereClause = "";
+            if (collegeId != null) {
+                log.info("Search only for collegeId: {}", collegeId);
+                collegeWhereClause = String.format(" AND q.collegeid = '%s'  ", collegeId);
+            }
+
+            String sql = "SELECT q.* , m.name as moduleName, c.name as collegeName " +
+                    " FROM items.question as q , items.college as c, items.module as m " +
+                    " WHERE q.collegeId = c.id AND q.moduleId = m.id " +
+                    " AND q.status = 'ACTIVE' " +
+                    " AND LOWER(q.title) LIKE LOWER(:phrase) " +
+                    collegeWhereClause +
+                    " ORDER BY q.datecreated DESC;";
+
+            List<QuestionFullDTO> results = jdbi.withHandle(handle -> handle.createQuery(sql)
+                    .bind("phrase", "%" + phrase + "%")
+                    .mapToBean(QuestionFullDTO.class)
+                    .list());
+
+            log.info("Found results: {}", results.size());
+            return results;
+        } catch (Exception e) {
+            log.error("Error while executing findByTitleLIKE. ERROR: {}", e.getMessage());
+            return null;
+        }
     }
 }
