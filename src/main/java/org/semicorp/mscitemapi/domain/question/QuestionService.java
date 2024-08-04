@@ -3,6 +3,7 @@ package org.semicorp.mscitemapi.domain.question;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
+import org.semicorp.mscitemapi.domain.nlp.NlpService;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionDAO;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionRow;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
@@ -11,6 +12,7 @@ import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
 import org.semicorp.mscitemapi.domain.tag.Tag;
 import org.semicorp.mscitemapi.domain.tag.TagService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +20,17 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class QuestionService {
 
     private final Jdbi jdbi;
     private final TagService tagService;
+    private final NlpService nlpService;
+
+    public QuestionService(Jdbi jdbi, TagService tagService, NlpService nlpService) {
+        this.jdbi = jdbi;
+        this.tagService = tagService;
+        this.nlpService = nlpService;
+    }
 
 
     public List<QuestionFullDTO> findAll(Integer limit) {
@@ -132,6 +140,14 @@ public class QuestionService {
             return null;
         }
         log.info("Question added. Id: {}", question.getId());
+
+        // Create embedding
+        try {
+            nlpService.createEmbedding(question);
+        } catch (Exception e) {
+            log.error("Error while creating embedding. Error: {}", e.getMessage());
+        }
+
         return question;
     }
 
