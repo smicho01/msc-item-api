@@ -11,3 +11,5 @@ databaseChangeLog:
       file: changelog/005-create-table-answer.json
   - include:
       file: changelog/199-insert-dummy-data.json
+  - include:
+      file: changelog/006-create-table-flaggedusers.json

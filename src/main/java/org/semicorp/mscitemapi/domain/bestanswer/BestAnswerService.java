@@ -17,11 +17,9 @@ public class BestAnswerService {
             String sql = "INSERT INTO items.bestanswer " +
                     "(questionAuthorId,answerAuthorId, questionId,answerId, timestamp ) " +
                     "VALUES (?, ?, ?, ?, ?);";
-            Integer i = jdbi.withHandle(handle -> {
-                return handle.execute(sql,
+            jdbi.withHandle(handle -> handle.execute(sql,
                         bestAnswer.getQuestionAuthorId(), bestAnswer.getAnswerAuthorId(),
-                        bestAnswer.getQuestionId(), bestAnswer.getAnswerId(), bestAnswer.getTimestamp());
-            });
+                        bestAnswer.getQuestionId(), bestAnswer.getAnswerId(), bestAnswer.getTimestamp()));
             log.info("Best answer saved: {}", bestAnswer);
             return true;
         } catch (Exception e) {
