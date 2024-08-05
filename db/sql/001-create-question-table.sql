@@ -1,3 +1,6 @@
+SET timezone = 'Europe/London';
+ALTER DATABASE mscstudents SET timezone = 'Europe/London';
+
 CREATE TABLE IF NOT EXISTS items.question (
     id VARCHAR(36)  PRIMARY KEY,
     title VARCHAR(250) NOT NULL,

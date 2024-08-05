@@ -5,11 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.semicorp.mscitemapi.domain.bestanswer.BestAnswer;
 import org.semicorp.mscitemapi.domain.bestanswer.BestAnswerService;
 import org.semicorp.mscitemapi.domain.blockchain.BlockchainMsgBestAnswer;
-import org.semicorp.mscitemapi.domain.question.Question;
 import org.semicorp.mscitemapi.domain.question.QuestionService;
-import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.kafka.blockchain.KafkaBlockchainProducerService;
+import org.semicorp.mscitemapi.service.malicious.MaliciousBehaviorTrackerService;
 import org.semicorp.mscitemapi.utils.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +32,7 @@ public class AnswerController {
     private final BestAnswerService bestAnswerService;
     private final QuestionService questionService;
     private final KafkaBlockchainProducerService kafkaBlockchainProducerService;
+    private final MaliciousBehaviorTrackerService maliciousBehaviorTrackerService;
 
 
     @GetMapping
@@ -81,15 +81,25 @@ public class AnswerController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
-    @PostMapping ResponseEntity<Answer> addAnswer(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+    @PostMapping
+    public ResponseEntity<Answer> addAnswer(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                                   @RequestBody Answer answer) {
-        String answerHash = StringUtils.generateHash(answer.getUserName(), answer.getContent(), answer.getQuestionId());
-        answer.setHash(answerHash);
-        Answer result = answerService.insert(answer);
-        if (result == null) {
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        log.info("Add answer endpoint called");
+        try {
+            // TODO: answers hash may be used to avoid adding the same question over and over.
+            String answerHash = StringUtils.generateHash(answer.getUserName(), answer.getContent(), answer.getQuestionId());
+            answer.setHash(answerHash);
+            Answer result = answerService.insert(answer);
+            if (result == null) {
+                log.warn("Result of adding answer is null");
+                return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            }
+            log.info("Answer added. Id: {}", result.getId());
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Error while adding answer:  ERROR: {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -106,11 +116,30 @@ public class AnswerController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Selects best answer and ignite process of assigning tokens to user
+     * @param answerId String
+     * @param best Boolean
+     * @return Response entity for class Answer
+     */
     @PutMapping("/best/{id}")
     ResponseEntity<Answer> updateAnswerBestValue(@PathVariable(value = "id") String answerId,
                                         @RequestParam("best") boolean best) {
         log.info("Answer id: {} set `best` value to: {}", answerId, best);
         try {
+
+            // Find answer data
+            Answer answer = answerService.getById(answerId);
+            // Find question data for that answer
+            QuestionFullDTO questionDto = questionService.findById(answer.getQuestionId());
+
+            // TODO: add check for malicious actions here
+            Boolean isMaliciousAction = maliciousBehaviorTrackerService.spotMaliciousBehaviour(answer, questionDto);
+            if(isMaliciousAction) {
+                log.error("Malicious behaviour spotted. Will not proceed with selecting best answer");
+                return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            }
+
             boolean response = answerService.setBestValue(answerId, best);
             Answer updatedAnswer = answerService.getById(answerId);
             if (response) {
@@ -122,8 +151,7 @@ public class AnswerController {
                 kafkaBlockchainProducerService.sendMessage(bm); // Send message to Kafka queue
 
 
-                // Save best answer to db to track possible frauds (e.g.same user select best answers)
-                QuestionFullDTO questionDto = questionService.findById(updatedAnswer.getQuestionId());
+
                 Date date = new java.util.Date();
                 Timestamp timestamp = new java.sql.Timestamp(date.getTime());
                 BestAnswer bestAnswer = new BestAnswer(questionDto.getUserId(), updatedAnswer.getUserId(),

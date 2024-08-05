@@ -90,7 +90,10 @@ public class AnswerService {
 
     public Answer getById(String answerId) {
         log.info("Get answer by id: {}", answerId);
+
         String sql = "SELECT * FROM items.answer WHERE id = :answerId;";
+
+
         Optional<Answer> response = jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind("answerId", answerId)
                 .mapToBean(Answer.class)

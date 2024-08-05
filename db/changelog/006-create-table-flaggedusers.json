@@ -1,0 +1,18 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "006-create-table-flaggedusers",
+        "author": "S Michota",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "path": "sql/006-create-table-flaggedusers.sql"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
