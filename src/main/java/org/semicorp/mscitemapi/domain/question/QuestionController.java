@@ -2,11 +2,13 @@ package org.semicorp.mscitemapi.domain.question;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.semicorp.mscitemapi.domain.nlp.response.SimilarQuestionsResponse;
 import org.semicorp.mscitemapi.domain.question.dto.AddQuestionDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullDTO;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullWithTagsDTO;
 import org.semicorp.mscitemapi.domain.question.mappers.QuestionMapper;
+import org.semicorp.mscitemapi.domain.question.request.SimilarQuestionRequest;
 import org.semicorp.mscitemapi.kafka.tag.KafkaTagProducerService;
 import org.semicorp.mscitemapi.kafka.tag.entity.QuestionTagsList;
 import org.semicorp.mscitemapi.utils.StringUtils;
@@ -142,6 +144,17 @@ public class QuestionController {
         }
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/similar")
+    public ResponseEntity<List<SimilarQuestionsResponse>> getQuestionsByTagName(@RequestBody SimilarQuestionRequest request)  {
+        try {
+            List<SimilarQuestionsResponse> similarQuestions = questionService.getSimilarQuestions(request.getQuestion(), 2);
+            return new ResponseEntity<>(similarQuestions, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error while calling endpoint /question/similar");
+            return  new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
