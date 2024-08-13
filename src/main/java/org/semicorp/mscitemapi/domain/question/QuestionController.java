@@ -147,9 +147,15 @@ public class QuestionController {
     }
 
     @PostMapping("/similar")
-    public ResponseEntity<List<SimilarQuestionsResponse>> getQuestionsByTagName(@RequestBody SimilarQuestionRequest request)  {
+    public ResponseEntity<List<SimilarQuestionsResponse>> getQuestionsByTagName(
+                    @RequestBody SimilarQuestionRequest request,
+                    @RequestParam(value = "limit", required = false) Integer limit)  {
+        int limitRecords = 6;
         try {
-            List<SimilarQuestionsResponse> similarQuestions = questionService.getSimilarQuestions(request.getQuestion(), 2);
+            if(limit != null) {
+                limitRecords = limit;
+            }
+            List<SimilarQuestionsResponse> similarQuestions = questionService.getSimilarQuestions(request.getQuestion(), limitRecords);
             return new ResponseEntity<>(similarQuestions, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Error while calling endpoint /question/similar");
