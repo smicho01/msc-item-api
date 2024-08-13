@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jdbi.v3.core.Jdbi;
 import org.semicorp.mscitemapi.domain.nlp.NlpService;
+import org.semicorp.mscitemapi.domain.nlp.response.SimilarQuestionsResponse;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionDAO;
 import org.semicorp.mscitemapi.domain.question.dao.QuestionRow;
 import org.semicorp.mscitemapi.domain.question.dto.QuestionFullAnswersCountDTO;
@@ -181,6 +182,16 @@ public class QuestionService {
             return results;
         } catch (Exception e) {
             log.error("Error while executing findByTitleLIKE. ERROR: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    public List<SimilarQuestionsResponse> getSimilarQuestions(String questionTitle, int limit) {
+        log.info("Call to getSimilarQuestions for question: {}  , and limit:{}", questionTitle.trim(), limit);
+        try {
+            return nlpService.findSimilarQuestionsByEmbeddings(questionTitle.trim(), limit);
+        } catch (Exception e) {
+            log.error("Error while getting similar questions by embeddings. ERROR: {}", e.getMessage());
             return null;
         }
     }
