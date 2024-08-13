@@ -146,7 +146,7 @@ public class QuestionController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
-    @GetMapping("/similar")
+    @PostMapping("/similar")
     public ResponseEntity<List<SimilarQuestionsResponse>> getQuestionsByTagName(@RequestBody SimilarQuestionRequest request)  {
         try {
             List<SimilarQuestionsResponse> similarQuestions = questionService.getSimilarQuestions(request.getQuestion(), 2);
