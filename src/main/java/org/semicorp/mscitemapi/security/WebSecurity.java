@@ -27,6 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/service/status")
                 .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/v1/healthcheck").permitAll() // allow url without JWT token
+                .antMatchers(HttpMethod.POST,"/api/v1/question/similar").permitAll() // allow url without JWT token
                 .antMatchers(HttpMethod.GET,"/api/v1/question/{questionId}").permitAll() // allow url without JWT token
                 .antMatchers(HttpMethod.GET,"/api/v1/answer").permitAll() // allow url without JWT token
                 .antMatchers(HttpMethod.GET,"/api/v1/answer/{questionId}").permitAll() // allow url without JWT token
