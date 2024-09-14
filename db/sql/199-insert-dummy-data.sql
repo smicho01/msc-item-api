@@ -1,9 +1,9 @@
-
--- dummy Question data
-INSERT INTO items.question (id, title, content, userId, userName, collegeId, moduleId, status) VALUES
-('9a7138dd-871e-476a-b610-2bcac68a6a82', 'How to create LSTM', 'Content of how to create LSTM ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c', 'PENDING'),
-('9a7138dd-871e-476a-b610-2bcac68a6a55', 'How to create B+Tree', 'Content of how to create B+Tree ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c', 'REJECTED');
-
+-- add constrains
+ALTER TABLE items.question
+ADD CONSTRAINT fk_college
+FOREIGN KEY (collegeId) REFERENCES items.college(id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
 
 -- dummy COLLEGE data
 INSERT INTO items.college (id, name) VALUES
@@ -37,6 +37,14 @@ INSERT INTO items.module (id, name, collegeId) VALUES
 ('f5fc12b0-7007-450f-b2e3-c9f05674b829', 'Algorithms', '12c23765-7f23-441a-b729-706629c7ab80'),
 ('ad607a8b-9d00-4565-95b4-5ccffe4900fe', 'Discrete Mathematics for Computer Scientists', '12c23765-7f23-441a-b729-706629c7ab80'),
 ('1ca9a9a0-624c-401b-973c-abd0dcd1ff9e', 'Engineering Challenges', '12c23765-7f23-441a-b729-706629c7ab80');
+
+
+
+-- dummy Question data
+INSERT INTO items.question (id, title, content, userId, userName, collegeId, moduleId, status) VALUES
+('9a7138dd-871e-476a-b610-2bcac68a6a82', 'How to create LSTM', 'Content of how to create LSTM ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c', 'PENDING'),
+('9a7138dd-871e-476a-b610-2bcac68a6a55', 'How to create B+Tree', 'Content of how to create B+Tree ...', 'c7288693-2bc4-4fd8-aca2-f9fe71f2a8ed', 'PertinentKingfisher', '69c72387-4477-4720-af08-1acf62d81470','27aeff8a-3cf5-438d-91e9-0ac59061e94c', 'REJECTED');
+
 
 
 -- dummy tags
