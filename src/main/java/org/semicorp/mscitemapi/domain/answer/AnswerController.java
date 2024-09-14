@@ -148,9 +148,7 @@ public class AnswerController {
                 UUID messageUUID = UUID.randomUUID(); //  To be used later in response message identification
                 BlockchainMsgBestAnswer bm = new BlockchainMsgBestAnswer(messageUUID, updatedAnswer.getId(),
                                 updatedAnswer.getQuestionId(), updatedAnswer.getUserId());
-                kafkaBlockchainProducerService.sendMessage(bm); // Send message to Kafka queue
-
-
+                kafkaBlockchainProducerService.sendMessage(bm); // Send message to Kafka topic
 
                 Date date = new java.util.Date();
                 Timestamp timestamp = new java.sql.Timestamp(date.getTime());

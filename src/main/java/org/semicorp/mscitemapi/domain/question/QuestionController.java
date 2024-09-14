@@ -55,6 +55,15 @@ public class QuestionController {
         return new ResponseEntity<>(userQuestions, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a list of questions with limited information if there is no need to get
+     * al question data.
+     *
+     * @param status The status of the questions to retrieve. Optional.
+     * @param limit The maximum number of questions to retrieve. Optional.
+     *
+     * @return A ResponseEntity containing a list of QuestionFullAnswersCountDTO objects.
+     */
     @GetMapping("/short")
     public ResponseEntity<List<QuestionFullAnswersCountDTO>> getAllQuestionsShort(
                         @RequestParam(value = "status", required = false) String status,

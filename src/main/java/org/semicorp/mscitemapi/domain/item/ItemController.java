@@ -12,16 +12,16 @@ import java.util.List;
 @Slf4j
 public class ItemController {
 
-    private final ItemService studentService;
+    private final ItemService itemService;
 
     public ItemController(ItemService studentService) {
-        this.studentService = studentService;
+        this.itemService = studentService;
     }
 
     @GetMapping
     public ResponseEntity<List<Item>> getAllItems() {
         log.info("Get all items");
-        List<Item> items = studentService.getAllItems();
+        List<Item> items = itemService.getAllItems();
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
@@ -29,14 +29,14 @@ public class ItemController {
     @GetMapping("/{id}")
     public ResponseEntity<Item> getItem(@PathVariable(value="id") String id)  {
         log.info(String.format("Get item by id: %s", id));
-        Item item = studentService.getStudent(id);
+        Item item = itemService.getStudent(id);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Item>> getUserItems(@PathVariable(value="userId") String userId)  {
         log.info(String.format("Get items for user %s", userId));
-        List<Item> items = studentService.getUserItem(userId);
+        List<Item> items = itemService.getUserItem(userId);
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 

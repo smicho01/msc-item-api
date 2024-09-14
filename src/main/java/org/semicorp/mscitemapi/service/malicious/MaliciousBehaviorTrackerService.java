@@ -74,7 +74,7 @@ public class MaliciousBehaviorTrackerService {
     }
 
     public Boolean areUsersFriends(String questionAuthorId, String answerAuthorId) {
-        // check with User Service if both are friends.
+        // check with User Service if both are friends. TODO: add in the next iteration
         return false;
     }
 
