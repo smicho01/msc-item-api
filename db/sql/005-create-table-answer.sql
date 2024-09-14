@@ -25,3 +25,16 @@ CREATE TABLE IF NOT EXISTS items.bestanswer (
 );
 CREATE INDEX idx_bestanswer_questionauthorid ON items.bestanswer(questionAuthorId);
 CREATE INDEX idx_bestanswer_answerauthorid ON items.bestanswer(answerAuthorId);
+
+
+ALTER TABLE items.bestanswer
+ADD CONSTRAINT fk_bestanswer_answer
+FOREIGN KEY (answerId) REFERENCES items.answer(id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+ALTER TABLE items.bestanswer
+ADD CONSTRAINT fk_bestanswer_question
+FOREIGN KEY (questionId) REFERENCES items.question(id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
